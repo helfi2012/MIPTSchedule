@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rootLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="top"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/scheduleMainLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
+        android:orientation="horizontal">
+
+        <FrameLayout
+            android:id="@+id/time_layout"
+            android:layout_width="@dimen/schedule_time_width"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:background="@drawable/time_lec"
+            android:clickable="false">
+
+            <TextView
+                android:id="@+id/startTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:paddingTop="8dp"
+                android:textColor="@android:color/white"
+                android:textSize="12sp"
+                android:clickable="false"
+                tools:text="9 AM" />
+
+            <LinearLayout
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginBottom="28dp"
+                android:layout_marginTop="28dp"
+                android:alpha="0.7"
+                android:background="@android:color/white"
+                android:clickable="false"/>
+
+            <TextView
+                android:id="@+id/endTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|center_horizontal"
+                android:paddingBottom="8dp"
+                android:textColor="@android:color/white"
+                android:textSize="12sp"
+                android:clickable="false"
+                tools:text="11 AM" />
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:orientation="vertical"
+            android:clickable="false">
+
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="false"
+                android:ellipsize="end"
+                android:fontFamily="sans-serif-medium"
+                android:textColor="@android:color/tertiary_text_dark"
+                android:textSize="16sp"
+                tools:text="Name" />
+
+            <TextView
+                android:id="@+id/prof"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="false"
+                android:ellipsize="end"
+                android:textColor="@android:color/tertiary_text_dark"
+                tools:text="Prof" />
+
+            <TextView
+                android:id="@+id/place"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:alpha="0.7"
+                android:ellipsize="end"
+                android:textSize="12sp"
+                android:clickable="false"
+                android:textColor="@android:color/tertiary_text_dark"
+                tools:text="Place" />
+        </LinearLayout>
+    </LinearLayout>
+</FrameLayout>

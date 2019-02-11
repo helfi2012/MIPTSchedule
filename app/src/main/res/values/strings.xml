@@ -1,0 +1,57 @@
+<resources>
+    <string name="app_name">Schedule</string>
+    <!-- MainActivity -->
+    <string name="change_group">Change group</string>
+    <string name="reset_schedule">Reset schedule</string>
+    <string name="spaces_switcher">Spaces</string>
+    <string-array name="week">
+        <item>Monday</item>
+        <item>Tuesday</item>
+        <item>Wednesday</item>
+        <item>Thursday</item>
+        <item>Friday</item>
+        <item>Saturday</item>
+        <item>Sunday</item>
+    </string-array>
+    <!-- Tips -->
+    <string name="list_tip">Tap to edit</string>
+    <string name="fab_tip">Add new</string>
+    <string name="confirm_tip">Got it!</string>
+    <!-- Start Activity -->
+    <string name="edit_text_hint">Enter your group</string>
+    <string name="button_start">Start</string>
+    <string name="search_hint">Search for a group</string>
+    <!-- EditActivity -->
+    <string name="title_new">New lesson</string>
+    <string name="title_edit">Edit lesson</string>
+    <string name="name_hint">Lesson</string>
+    <string name="place_hint">Place</string>
+    <string name="prof_hint">Professor</string>
+    <string name="start_time_hint">Start time</string>
+    <string name="end_time_hint">End time</string>
+    <string name="notes_hint">Notes</string>
+    <string name="type_hint">Lesson type</string>
+    <string name="default_start_time" translatable="false">9:00</string>
+    <string name="default_end_time" translatable="false">10:25</string>
+    <string name="error_empty_string">Text must be not empty</string>
+    <string name="error_time">Incorrect time</string>
+    <string name="error_hint">Cannot be saved</string>
+    <string name="empty_string" translatable="false" />
+    <string-array name="lesson_types_text">
+        <item>Seminar</item>
+        <item>Lecture</item>
+        <item>Laboratory</item>
+    </string-array>
+    <!-- Confirm dialog -->
+    <string name="dialog_title">Confirmation</string>
+    <string name="delete_message">Do you really want to delete?</string>
+    <string name="reset_message">Do you really want to reset?</string>
+    <string name="button_yes">Yes</string>
+    <string name="button_no">No</string>
+    <!-- TimePicker -->
+    <string name="time_picker_title">Choose time</string>
+    <!-- Widget -->
+    <string name="next_button" translatable="false">Next</string>
+    <string name="prev_button" translatable="false">Previous</string>
+    <string name="image" translatable="false">Image</string>
+</resources>

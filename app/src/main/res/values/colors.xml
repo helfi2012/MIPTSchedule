@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#0096a5</color>
+    <color name="colorPrimaryDark">#006064</color>
+    <color name="colorAccent">#c1185b</color>
+
+    <color name="free">#008577</color>
+    <color name="lecture">#c1185b</color>
+    <color name="seminar">#0096a5</color>
+    <color name="practice">#f9bf2d</color>
+</resources>

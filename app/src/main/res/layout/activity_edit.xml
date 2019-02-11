@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="edu.phystech.iag.kaiumov.shedule.activities.EditActivity">
+
+    <LinearLayout
+        android:id="@+id/editLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/edit_layout_margin">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/lessonText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/name_hint"
+                android:imeOptions="actionGo"
+                android:singleLine="true" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/edit_layout_margin">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/placeText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/place_hint"
+                android:imeOptions="actionGo"
+                android:singleLine="true" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/edit_layout_margin"
+            android:layout_marginStart="@dimen/edit_layout_margin"
+            android:layout_marginEnd="@dimen/edit_layout_margin" >
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/profText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/prof_hint"
+                android:imeOptions="actionGo"
+                android:singleLine="true" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <ListView
+            android:id="@+id/profList"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_marginBottom="@dimen/edit_layout_margin"
+            android:layout_marginStart="@dimen/edit_layout_margin"
+            android:layout_marginEnd="@dimen/edit_layout_margin"
+            android:visibility="gone"
+            android:divider="@drawable/list_view_divider"
+            android:dividerHeight="2dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/edit_layout_margin"
+            android:text="@string/type_hint"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+
+        <Spinner
+            android:id="@+id/spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/edit_layout_margin"
+            android:entries="@array/lesson_types_text" />
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/edit_layout_margin">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/startTimeText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/start_time_hint"
+                android:imeOptions="actionGo"
+                android:inputType="time"
+                android:singleLine="true"
+                android:text="@string/default_start_time" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/edit_layout_margin">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/endTimeText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/end_time_hint"
+                android:imeOptions="actionGo"
+                android:inputType="time"
+                android:singleLine="true"
+                android:text="@string/default_end_time" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/edit_layout_margin">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/notesText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:minHeight="80dp"
+                android:gravity="start"
+                android:hint="@string/notes_hint"
+                android:inputType="textMultiLine" />
+        </android.support.design.widget.TextInputLayout>
+    </LinearLayout>
+</ScrollView>

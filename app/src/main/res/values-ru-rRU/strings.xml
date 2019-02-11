@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Расписание</string>
+    <string name="edit_text_hint">Введите свою группу</string>
+    <string name="button_start">Поехали!</string>
+    <string name="search_hint">Поиск группы</string>
+
+    <string-array name="week">
+        <item>Понедельник</item>
+        <item>Вторник</item>
+        <item>Среда</item>
+        <item>Четверг</item>
+        <item>Пятница</item>
+        <item>Суббота</item>
+        <item>Воскресенье</item>
+    </string-array>
+    <string-array name="lesson_types_text">
+        <item>Семинар</item>
+        <item>Лекция</item>
+        <item>Лаборатория</item>
+    </string-array>
+    <string name="change_group">Изменить группу</string>
+    <string name="name_hint">Предмет</string>
+    <string name="place_hint">Аудитория</string>
+    <string name="prof_hint">Преподаватель</string>
+    <string name="start_time_hint">Начало</string>
+    <string name="end_time_hint">Конец</string>
+    <string name="notes_hint">Заметки</string>
+    <string name="type_hint">Тип занятия</string>
+    <string name="title_new">Новый предмет</string>
+    <string name="title_edit">Редактировать</string>
+    <string name="time_picker_title">Выберите время</string>
+    <string name="error_empty_string">Введите название</string>
+    <string name="error_hint">Невозможно сохранить</string>
+    <string name="error_time">Некорректное время</string>
+    <string name="reset_schedule">Сбросить изменения</string>
+    <string name="delete_message">Вы действительно хотите удалить?</string>
+    <string name="reset_message">Вы действительно хотите сбросить?</string>
+    <string name="button_yes">Да</string>
+    <string name="button_no">Нет</string>
+    <string name="dialog_title">Подтверждение</string>
+    <string name="list_tip">Нажми, чтобы изменить</string>
+    <string name="fab_tip">Добавь новый предмет</string>
+    <string name="confirm_tip">Понял!</string>
+    <string name="spaces_switcher">Пробелы</string>
+</resources>

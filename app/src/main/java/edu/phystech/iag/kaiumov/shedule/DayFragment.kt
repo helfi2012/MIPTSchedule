@@ -6,59 +6,68 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import edu.phystech.iag.kaiumov.shedule.model.ScheduleItem
+import edu.phystech.iag.kaiumov.shedule.model.TimeUtils
+import edu.phystech.iag.kaiumov.shedule.recyclerview.HeaderDataImpl
+import edu.phystech.iag.kaiumov.shedule.recyclerview.RecyclerAdapter
 import kotlinx.android.synthetic.main.fragment_day.*
 import java.util.*
+import kotlin.collections.HashSet
 
 
 class DayFragment : Fragment() {
 
-    private var empty = false
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val day = arguments?.getInt(ARG_DAY)
-        val timetable = arguments?.getSerializable(ARG_TIMETABLE)
-        if (day == null || timetable == null)
-            return null
-        val lessons = timetable as List<*>
-        if (lessons.none { (it as ScheduleItem).day == day }) {
-            empty = true
-            return when (day) {
-                7 -> inflater.inflate(R.layout.empty1, container, false)
-                else -> inflater.inflate(R.layout.empty2, container, false)
-            }
-        }
         return inflater.inflate(R.layout.fragment_day, container, false)
     }
 
     @Suppress("UNCHECKED_CAST")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val day = arguments?.getInt(ARG_DAY)
-        val timetable = arguments?.getSerializable(ARG_TIMETABLE)
-        if (day == null || timetable == null || empty)
+        val key = arguments?.getString(ARG_KEY)
+        val sData = arguments?.getSerializable(ARG_DATA)
+        if (key == null || sData == null)
             return
+        var data = sData as List<ScheduleItem>
         recycler.layoutManager = LinearLayoutManager(context)
-        recycler.adapter = ClassesAdapter(day, activity!!, timetable as List<ScheduleItem>)
-    }
-
-    override fun onDestroy() {
-        // Free memory
-        if (!empty) {
-            view?.findViewById<ImageView>(R.id.imageView)?.setImageBitmap(null)
+        val adapter = RecyclerAdapter(activity!!, key)
+        // Add data to recycler view
+        val days = recycler.context.resources.getStringArray(R.array.week)
+        val daysIndex = HashSet<Int>()
+        data.forEach { daysIndex.add(it.day) }
+        // Sort data
+        data = data.sortedWith(Comparator { t1, t2 ->
+            return@Comparator if (t1.day != t2.day)
+                t1.day - t2.day
+            else
+                TimeUtils.compareTime(t1.startTime, t2.startTime)
+        })
+        // Add next item to tag
+        (0 until data.size - 1).forEach {
+            if (data[it].day == data[it + 1].day)
+                data[it].tag = data[it + 1]
+            else
+                data[it].tag = null }
+        data[data.size - 1].tag = null
+        for (day in daysIndex.iterator()) {
+            adapter.setHeaderAndData(data.filter { it.day == day }, HeaderDataImpl(day, days[day - 1].toString(),
+                    R.layout.recycler_header))
         }
-        super.onDestroy()
+        // Set recycler adapter
+        recycler.adapter = adapter
+        val day = TimeUtils.getCurrentDay()
+        val index = data.indexOfFirst { it.day == day } + day - 1
+        recycler.scrollToPosition(index)
     }
 
     companion object {
-        private const val ARG_DAY = "day"
-        private const val ARG_TIMETABLE = "source"
+        private const val ARG_KEY = "key"
+        private const val ARG_DATA = "source"
 
-        fun new(day: Int, timetable: ArrayList<ScheduleItem>): DayFragment {
+        fun new(key: String, data: ArrayList<ScheduleItem>): DayFragment {
             val fragment = DayFragment()
             val arguments = Bundle()
-            arguments.putInt(ARG_DAY, day)
-            arguments.putSerializable(ARG_TIMETABLE, timetable)
+            arguments.putString(ARG_KEY, key)
+            arguments.putSerializable(ARG_DATA, data)
             fragment.arguments = arguments
             return fragment
         }

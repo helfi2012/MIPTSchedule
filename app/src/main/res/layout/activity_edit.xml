@@ -56,17 +56,6 @@
 
         </android.support.design.widget.TextInputLayout>
 
-        <ListView
-            android:id="@+id/profList"
-            android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:layout_marginBottom="@dimen/edit_layout_margin"
-            android:layout_marginStart="@dimen/edit_layout_margin"
-            android:layout_marginEnd="@dimen/edit_layout_margin"
-            android:visibility="gone"
-            android:divider="@drawable/list_view_divider"
-            android:dividerHeight="2dp" />
-
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -75,11 +64,26 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
 
         <Spinner
-            android:id="@+id/spinner"
+            android:id="@+id/lessonSpinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/edit_layout_margin"
             android:entries="@array/lesson_types_text" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/edit_layout_margin"
+            android:text="@string/day_hint"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption" />
+
+        <Spinner
+            android:id="@+id/daySpinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/edit_layout_margin"
+            android:entries="@array/week">
+        </Spinner>
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"

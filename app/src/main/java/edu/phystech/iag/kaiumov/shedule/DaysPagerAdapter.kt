@@ -1,22 +1,22 @@
 package edu.phystech.iag.kaiumov.shedule
 
-import android.content.Context
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentStatePagerAdapter
 import edu.phystech.iag.kaiumov.shedule.model.ScheduleItem
 
-class DaysPagerAdapter(private val timetable: ArrayList<ScheduleItem>, private val context: Context,
+class DaysPagerAdapter(private val timetable: HashMap<String, ArrayList<ScheduleItem>>,
+                       private val keys: List<String>,
                        fm: FragmentManager) :
         FragmentStatePagerAdapter(fm) {
 
     override fun getItem(position: Int): Fragment {
-        return DayFragment.new(position + 1, timetable)
+        return DayFragment.new(keys[position], timetable[keys[position]]!!)
     }
 
-    override fun getCount(): Int = 7
+    override fun getCount(): Int = keys.size
 
     override fun getPageTitle(position: Int): CharSequence {
-        return context.resources.getStringArray(R.array.week)[position].toString()
+        return keys[position]
     }
 }

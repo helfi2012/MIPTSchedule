@@ -31,7 +31,7 @@ class StartActivity : AppCompatActivity() {
         })
 
         searchList.setOnItemClickListener { _, _, position, _ ->
-            Utils.modifyKey(applicationContext, adapter.getItem(position))
+            Utils.addKey(applicationContext, adapter.getItem(position)!!)
             finish()
         }
     }

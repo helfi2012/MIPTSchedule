@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/mainActivity">
+
+    <activity
+        android:id="@+id/mainActivity"
+        android:name="edu.phystech.iag.kaiumov.shedule.activities.MainActivity"
+        android:label="activity_main"
+        tools:layout="@layout/activity_main">
+        <action
+            android:id="@+id/action_global_editActivity"
+            app:destination="@id/editActivity" />
+        <action
+            android:id="@+id/action_global_startActivity"
+            app:destination="@id/startActivity" />
+    </activity>
+    <activity
+        android:id="@+id/startActivity"
+        android:name="edu.phystech.iag.kaiumov.shedule.activities.StartActivity"
+        android:label="activity_start"
+        tools:layout="@layout/activity_start">
+    </activity>
+    <activity
+        android:id="@+id/editActivity"
+        android:name="edu.phystech.iag.kaiumov.shedule.activities.EditActivity"
+        android:label="activity_edit"
+        tools:layout="@layout/activity_edit" />
+</navigation>

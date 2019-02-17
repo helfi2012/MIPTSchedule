@@ -26,7 +26,7 @@ import kotlinx.android.synthetic.main.activity_edit.*
 class EditActivity : AppCompatActivity() {
 
     private var action: String? = null
-    private var day: Int? = null
+    private var key: String? = null
     private var item: ScheduleItem? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,11 +35,13 @@ class EditActivity : AppCompatActivity() {
 
         // Set action bar according to type of activity (edit or create)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        // Get group number
+        key = intent.getStringExtra(Keys.KEY)
+        // Two variants: 1) Add new lesson; 2) Edit existed one
         action = intent.action
         when (intent.action) {
             Keys.ACTION_NEW -> {
                 supportActionBar?.title = getString(R.string.title_new)
-                day = intent.getIntExtra(Keys.DAY, 0)
             }
             Keys.ACTION_EDIT -> {
                 supportActionBar?.title = getString(R.string.title_edit)
@@ -70,36 +72,6 @@ class EditActivity : AppCompatActivity() {
                 )
             }
         }
-        /*
-        val professors = Utils.loadProfessors(applicationContext)
-        val adapter = ArrayAdapter<String>(applicationContext, R.layout.search_item)
-        profList.adapter = adapter
-        profText.addTextChangedListener(object : TextWatcher {
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) = Unit
-
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) = Unit
-
-            override fun afterTextChanged(p0: Editable?) {
-                p0 ?: return
-                SearchTask(profText.text.toString(), professors, Keys.SEARCH_LIMIT, adapter).execute()
-            }
-        })
-        profText.onFocusChangeListener = View.OnFocusChangeListener { _: View, focus: Boolean ->
-            if (focus) {
-                profList.visibility = View.VISIBLE
-            } else {
-                profList.visibility = View.GONE
-            }
-        }
-        profList.setOnTouchListener { v, _ ->
-            v.parent.requestDisallowInterceptTouchEvent(true)
-            false
-        }
-        profList.setOnItemClickListener { _, _, position, _ ->
-            profText.setText(adapter.getItem(position))
-            profText.clearFocus()
-        }
-        */
     }
 
     override fun onPause() {
@@ -204,7 +176,7 @@ class EditActivity : AppCompatActivity() {
         if (!focus) return@OnFocusChangeListener
         editLayout.requestFocus()
         val editText = view as EditText
-        val t = editText.text.split(":").map { it -> it.toInt() }
+        val t = editText.text.split(":").map { it.toInt() }
         val hour = t[0]
         val minute = t[1]
         val mTimePicker = TimePickerDialog(this,
@@ -227,27 +199,30 @@ class EditActivity : AppCompatActivity() {
         startTimeText.setText(item?.startTime)
         endTimeText.setText(item?.endTime)
         notesText.setText(item?.notes)
-        spinner.setSelection(resources.getStringArray(R.array.lesson_types).indexOf(item?.type))
+        lessonSpinner.setSelection(resources.getStringArray(R.array.lesson_types).indexOf(item?.type))
+        daySpinner.setSelection(item!!.day - 1)
     }
 
     private fun saveNewData() {
         val newItem = ScheduleItem(lessonText.text.toString(),
                 profText.text.toString(),
                 placeText.text.toString(),
-                day!!,
-                resources.getStringArray(R.array.lesson_types)[spinner.selectedItemPosition],
+                daySpinner.selectedItemPosition + 1,
+                resources.getStringArray(R.array.lesson_types)[lessonSpinner.selectedItemPosition],
                 startTimeText.text.toString(),
                 endTimeText.text.toString(),
                 notesText.text.toString())
         val app = application as ScheduleApp
-        val key = Utils.loadKey(applicationContext) ?: return
         val timetable = app.timetable ?: return
         val lessons = timetable[key] ?: return
         lessons.add(newItem)
         lessons.sortWith(Comparator { t1, t2 ->
-            return@Comparator TimeUtils.compareTime(t1.startTime, t2.startTime)
+            return@Comparator if (t1.day != t2.day)
+                t1.day - t2.day
+            else
+                TimeUtils.compareTime(t1.startTime, t2.startTime)
         })
-        timetable[key] = lessons
+        timetable[key!!] = lessons
         app.updateTimeTable(timetable)
     }
 
@@ -255,31 +230,32 @@ class EditActivity : AppCompatActivity() {
         val newItem = ScheduleItem(lessonText.text.toString(),
                 profText.text.toString(),
                 placeText.text.toString(),
-                item!!.day,
-                resources.getStringArray(R.array.lesson_types)[spinner.selectedItemPosition],
+                daySpinner.selectedItemPosition + 1,
+                resources.getStringArray(R.array.lesson_types)[lessonSpinner.selectedItemPosition],
                 startTimeText.text.toString(),
                 endTimeText.text.toString(),
                 notesText.text.toString())
         val app = application as ScheduleApp
-        val key = Utils.loadKey(applicationContext) ?: return
         val timetable = app.timetable ?: return
         val lessons = timetable[key] ?: return
         val pos = lessons.indexOf(item!!)
         lessons[pos] = newItem
         lessons.sortWith(Comparator { t1, t2 ->
-            return@Comparator TimeUtils.compareTime(t1.startTime, t2.startTime)
+            return@Comparator if (t1.day != t2.day)
+                t1.day - t2.day
+            else
+                TimeUtils.compareTime(t1.startTime, t2.startTime)
         })
-        timetable[key] = lessons
+        timetable[key!!] = lessons
         app.updateTimeTable(timetable)
     }
 
     private fun deleteItem() {
         val app = application as ScheduleApp
-        val key = Utils.loadKey(applicationContext) ?: return
         val timetable = app.timetable ?: return
-        val lessons = timetable[key] ?: return
+        val lessons = timetable[key!!] ?: return
         lessons.remove(item!!)
-        timetable[key] = lessons
+        timetable[key!!] = lessons
         app.updateTimeTable(timetable)
     }
 }

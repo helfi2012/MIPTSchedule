@@ -19,7 +19,6 @@
         <item>Лекция</item>
         <item>Лаборатория</item>
     </string-array>
-    <string name="change_group">Изменить группу</string>
     <string name="name_hint">Предмет</string>
     <string name="place_hint">Аудитория</string>
     <string name="prof_hint">Преподаватель</string>
@@ -43,4 +42,7 @@
     <string name="fab_tip">Добавь новый предмет</string>
     <string name="confirm_tip">Понял!</string>
     <string name="spaces_switcher">Пробелы</string>
+    <string name="delete_group">Удалить группу</string>
+    <string name="day_hint">День недели</string>
+    <string name="add_group_tip">Теперь ты можешь просматривать несколько групп одновременно. Просто нажми \"+\", чтобы добавить новую группу</string>
 </resources>

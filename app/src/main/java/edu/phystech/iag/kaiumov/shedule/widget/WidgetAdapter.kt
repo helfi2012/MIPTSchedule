@@ -5,15 +5,48 @@ import android.content.Context
 import android.content.Intent
 import android.widget.RemoteViews
 import android.widget.RemoteViewsService.RemoteViewsFactory
-import edu.phystech.iag.kaiumov.shedule.ClassesAdapter
+import edu.phystech.iag.kaiumov.shedule.recyclerview.RecyclerAdapter
 import edu.phystech.iag.kaiumov.shedule.R
 import edu.phystech.iag.kaiumov.shedule.model.ScheduleItem
+import edu.phystech.iag.kaiumov.shedule.model.TimeUtils
 
-class WidgetAdapter(private val context: Context,
-                    private val day: Int,
-                    lessons: List<ScheduleItem>) : RemoteViewsFactory {
+class WidgetAdapter(private val context: Context, classes: List<ScheduleItem>) : RemoteViewsFactory {
 
-    private val data = lessons.filter { it.day == day }
+    // Special class that includes Headers
+    class ListItem(var scheduleItem: ScheduleItem? = null, var day: Int = 0)
+
+    private val data = ArrayList<ListItem>()
+
+    init {
+        val day = TimeUtils.getCurrentDay()
+        val time = TimeUtils.getCurrentTime()
+        for (i in 0 until classes.size) {
+            if (classes[i].day < day || TimeUtils.compareTime(classes[i].endTime, time) < 0)
+                continue
+            if (isFirstLesson(classes, i)) {
+                data.add(ListItem(day = classes[i].day))
+            }
+            data.add(ListItem(scheduleItem = classes[i]))
+        }
+        // if there's no any lessons on this week - show next week
+        if (data.isEmpty()) {
+            for (i in 0 until classes.size) {
+                if (isFirstLesson(classes, i)) {
+                    data.add(ListItem(day = classes[i].day))
+                }
+                data.add(ListItem(scheduleItem = classes[i]))
+            }
+        }
+    }
+
+    private fun isFirstLesson(classes: List<ScheduleItem>, index: Int) : Boolean {
+        for (lesson in classes.filter { classes[index].day == it.day }) {
+            if (TimeUtils.compareTime(lesson.startTime, classes[index].startTime) < 0) {
+                return false
+            }
+        }
+        return true
+    }
 
     override fun onCreate() = Unit
 
@@ -24,8 +57,15 @@ class WidgetAdapter(private val context: Context,
     override fun getLoadingView(): RemoteViews? = null
 
     override fun getViewAt(position: Int): RemoteViews {
+        val listItem = data[position]
+        if (listItem.scheduleItem == null) {
+            val remoteViews = RemoteViews(context.packageName, R.layout.recycler_header)
+            remoteViews.setTextViewText(R.id.headerText,
+                    context.resources.getStringArray(R.array.week)[listItem.day - 1].toString())
+            return remoteViews
+        }
         val remoteViews = RemoteViews(context.packageName, R.layout.schedule_item)
-        val item = data[position]
+        val item = listItem.scheduleItem!!
         remoteViews.setTextViewText(R.id.name, item.name)
         remoteViews.setTextViewText(R.id.prof, item.prof)
         remoteViews.setTextViewText(R.id.place, item.place)
@@ -33,7 +73,7 @@ class WidgetAdapter(private val context: Context,
         remoteViews.setTextViewText(R.id.endTime, item.endTime)
         remoteViews.setInt(R.id.time_layout,
                 "setBackgroundResource",
-                ClassesAdapter.lessonDrawable(item.type))
+                RecyclerAdapter.lessonDrawable(item.type))
         val clickIntent = Intent()
         remoteViews.setOnClickFillInIntent(R.id.scheduleMainLayout, clickIntent)
         return remoteViews
@@ -46,5 +86,4 @@ class WidgetAdapter(private val context: Context,
     override fun onDataSetChanged() = Unit
 
     override fun onDestroy() = Unit
-
 }

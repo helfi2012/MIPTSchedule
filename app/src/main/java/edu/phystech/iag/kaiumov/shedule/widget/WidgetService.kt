@@ -10,9 +10,7 @@ class WidgetService : RemoteViewsService() {
 
     override fun onGetViewFactory(intent: Intent): RemoteViewsService.RemoteViewsFactory {
         val timetable = (application as ScheduleApp).timetable!!
-        val key = Utils.loadKey(applicationContext)
-        val day = intent.getIntExtra(Keys.DAY, Keys.DEFAULT_DAY)
-        return WidgetAdapter(applicationContext, day, timetable[key]!!)
+        val key = intent.getStringExtra(Keys.KEY)
+        return WidgetAdapter(applicationContext, timetable[key]!!)
     }
-
 }

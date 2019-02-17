@@ -15,6 +15,8 @@ import java.io.InputStreamReader
 
 
 object Utils {
+    private const val ENCODING = "UTF-8"
+    private const val DELIMITER = "|"
 
     internal fun hideKeyboard(activity: Activity) {
         val imm = activity.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
@@ -25,13 +27,26 @@ object Utils {
         imm.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
-    internal fun loadKey(context: Context): String? {
-        return PreferenceManager.getDefaultSharedPreferences(context).getString(Keys.PREF_GROUP, null)
+    internal fun loadKeys(context: Context): List<String>? {
+        val s = PreferenceManager.getDefaultSharedPreferences(context).getString(Keys.PREF_GROUP, null)
+        return s?.split(DELIMITER)
     }
 
-    internal fun modifyKey(context: Context, key: String) {
+    internal fun addKey(context: Context, key: String) {
+        val keys = (loadKeys(context) ?: List(0) { "" }).toMutableList()
+        keys.add(key)
+        modifyKeys(context, keys)
+    }
+
+    internal fun modifyKeys(context: Context, keys: List<String>) {
+        var s = ""
+        for (i in 0 until keys.size) {
+            s += keys[i]
+            if (i < keys.size - 1)
+                s += DELIMITER
+        }
         val editor = PreferenceManager.getDefaultSharedPreferences(context).edit()
-        editor.putString(Keys.PREF_GROUP, key)
+        editor.putString(Keys.PREF_GROUP, if (keys.isEmpty()) null else s)
         editor.apply()
     }
 
@@ -45,7 +60,7 @@ object Utils {
     internal fun loadSchedule(context: Context): Schedule {
         try {
             val inputStream = context.openFileInput(Keys.SCHEDULE_PATH)
-            val bufferedReader = BufferedReader(InputStreamReader(inputStream, Keys.ENCODING))
+            val bufferedReader = BufferedReader(InputStreamReader(inputStream, ENCODING))
             var output = ""
             while (true) {
                 val local = bufferedReader.readLine() ?: break
@@ -63,15 +78,8 @@ object Utils {
 
     internal fun loadScheduleFromAssets(context: Context): Schedule {
         return Gson().fromJson<Schedule>(
-                IOUtils.toString(context.assets.open(Keys.SCHEDULE_PATH), Keys.ENCODING),
+                IOUtils.toString(context.assets.open(Keys.SCHEDULE_PATH), ENCODING),
                 object : TypeToken<Schedule>() {}.type
-        )
-    }
-
-    internal fun loadProfessors(context: Context): ArrayList<String> {
-        return Gson().fromJson<ArrayList<String>>(
-                IOUtils.toString(context.assets.open(Keys.PROFESSORS_PATH), Keys.ENCODING),
-                object : TypeToken<ArrayList<String>>() {}.type
         )
     }
 }

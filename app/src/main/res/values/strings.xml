@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">Schedule</string>
     <!-- MainActivity -->
-    <string name="change_group">Change group</string>
     <string name="reset_schedule">Reset schedule</string>
+    <string name="delete_group">Delete group</string>
     <string name="spaces_switcher">Spaces</string>
     <string-array name="week">
         <item>Monday</item>
@@ -14,6 +14,7 @@
         <item>Sunday</item>
     </string-array>
     <!-- Tips -->
+    <string name="add_group_tip">Now you can see many groups at once. Just click on "+" button to add new group</string>
     <string name="list_tip">Tap to edit</string>
     <string name="fab_tip">Add new</string>
     <string name="confirm_tip">Got it!</string>
@@ -31,6 +32,7 @@
     <string name="end_time_hint">End time</string>
     <string name="notes_hint">Notes</string>
     <string name="type_hint">Lesson type</string>
+    <string name="day_hint">Day of the week</string>
     <string name="default_start_time" translatable="false">9:00</string>
     <string name="default_end_time" translatable="false">10:25</string>
     <string name="error_empty_string">Text must be not empty</string>

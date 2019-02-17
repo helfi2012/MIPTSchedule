@@ -54,9 +54,6 @@
         android:id="@+id/widgetListView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginStart="@dimen/widget_margin"
-        android:layout_marginTop="@dimen/widget_margin"
-        android:layout_marginBottom="@dimen/widget_margin"
         android:divider="@android:color/transparent"
         android:dividerHeight="1dp" />
 </LinearLayout>

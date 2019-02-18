@@ -19,7 +19,6 @@ import edu.phystech.iag.kaiumov.shedule.model.ScheduleItem
 import edu.phystech.iag.kaiumov.shedule.model.TimeUtils
 import kotlinx.android.synthetic.main.recycler_header.view.*
 import kotlinx.android.synthetic.main.schedule_item.view.*
-import uk.co.deanwild.materialshowcaseview.MaterialShowcaseView
 
 
 class RecyclerAdapter(private val activity: Activity, private val key: String) :
@@ -80,7 +79,6 @@ class RecyclerAdapter(private val activity: Activity, private val key: String) :
 
             val preferences = PreferenceManager.getDefaultSharedPreferences(activity)
             val spaces = preferences.getBoolean(Keys.PREF_SPACES, false)
-            val firstStart = PreferenceManager.getDefaultSharedPreferences(activity).getBoolean(Keys.PREF_FIRST, true)
             // Create spaces
 
             if (spaces && item.tag != null && item.tag is ScheduleItem) {
@@ -89,14 +87,9 @@ class RecyclerAdapter(private val activity: Activity, private val key: String) :
                         (TimeUtils.length(nextItem.startTime, item.startTime) *
                                 context.resources.getDimension(R.dimen.schedule_item_height)).toInt()
             }
-            // Show tips if it's the first start (check via SharedPreferences)
-            if (firstStart) {
-                // firstStart = false
-                val editor = preferences.edit()
-                editor.putBoolean(Keys.PREF_FIRST, false)
-                editor.apply()
-                (activity as MainActivity).listItemView = itemView.scheduleMainLayout
-            }
+            val act = activity as MainActivity
+            if (act.listItemView == null)
+                act.listItemView = itemView.scheduleMainLayout
         }
     }
 

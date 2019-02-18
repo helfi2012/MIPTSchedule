@@ -3,7 +3,6 @@ package edu.phystech.iag.kaiumov.shedule
 object Keys {
     // Preferences
     const val PREF_SPACES = "spaces"
-    const val PREF_FIRST = "first_start"
     const val PREF_GROUP = "group_number"
 
     const val SCHEDULE_PATH = "schedule.json"

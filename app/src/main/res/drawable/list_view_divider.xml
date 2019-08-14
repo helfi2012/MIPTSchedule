@@ -5,6 +5,6 @@
     <gradient
         android:type="linear"
         android:startColor="@color/free"
-        android:endColor="@color/colorPrimary"
+        android:endColor="@color/colorPrimaryDay"
         android:angle="45.0" />
 </shape>

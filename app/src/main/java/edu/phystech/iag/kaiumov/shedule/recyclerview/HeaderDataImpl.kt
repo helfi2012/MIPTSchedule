@@ -1,7 +1,7 @@
 package edu.phystech.iag.kaiumov.shedule.recyclerview
 
 import com.saber.stickyheader.stickyData.HeaderData
-import android.support.annotation.LayoutRes
+import androidx.annotation.LayoutRes
 
 
 class HeaderDataImpl(val day: Int, val text: String,

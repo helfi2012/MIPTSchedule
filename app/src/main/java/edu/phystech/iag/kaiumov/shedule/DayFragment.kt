@@ -1,16 +1,18 @@
 package edu.phystech.iag.kaiumov.shedule
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v7.widget.LinearLayoutManager
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import edu.phystech.iag.kaiumov.shedule.activities.MainActivity
 import edu.phystech.iag.kaiumov.shedule.model.ScheduleItem
 import edu.phystech.iag.kaiumov.shedule.model.TimeUtils
 import edu.phystech.iag.kaiumov.shedule.recyclerview.HeaderDataImpl
 import edu.phystech.iag.kaiumov.shedule.recyclerview.RecyclerAdapter
-import kotlinx.android.synthetic.main.fragment_day.*
+import kotlinx.android.synthetic.main.fragment_group.*
 import java.util.*
 import kotlin.collections.HashSet
 
@@ -18,7 +20,7 @@ import kotlin.collections.HashSet
 class DayFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_day, container, false)
+        return inflater.inflate(R.layout.fragment_group, container, false)
     }
 
     @Suppress("UNCHECKED_CAST")
@@ -28,7 +30,6 @@ class DayFragment : Fragment() {
         if (key == null || sData == null)
             return
         var data = sData as List<ScheduleItem>
-        recycler.layoutManager = LinearLayoutManager(context)
         val adapter = RecyclerAdapter(activity!!, key)
         // Add data to recycler view
         val days = recycler.context.resources.getStringArray(R.array.week)
@@ -49,14 +50,27 @@ class DayFragment : Fragment() {
                 data[it].tag = null }
         data[data.size - 1].tag = null
         for (day in daysIndex.iterator()) {
-            adapter.setHeaderAndData(data.filter { it.day == day }, HeaderDataImpl(day, days[day - 1].toString(),
-                    R.layout.recycler_header))
+            adapter.setHeaderAndData(data.filter { it.day == day },
+                    HeaderDataImpl(day, days[day - 1].toString(), R.layout.recycler_header))
         }
         // Set recycler adapter
+        recycler.layoutManager = LinearLayoutManager(context)
         recycler.adapter = adapter
         val day = TimeUtils.getCurrentDay()
-        val index = data.indexOfFirst { it.day == day } + day - 1
+        var index = data.indexOfFirst { it.day == day }
+        if (index == -1) {
+            index = 0
+        } else {
+            index += day - 1
+        }
         recycler.scrollToPosition(index)
+
+        val lastIndex = index + if (index + 1 < data.size) 1 else 0
+        Handler().post {
+            val mainActivity = activity as MainActivity
+            mainActivity.listItemView = recycler.getChildAt(lastIndex)
+            mainActivity.showTips()
+        }
     }
 
     companion object {

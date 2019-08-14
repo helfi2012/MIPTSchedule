@@ -19,9 +19,8 @@ class WidgetAdapter(private val context: Context, classes: List<ScheduleItem>) :
 
     init {
         val day = TimeUtils.getCurrentDay()
-        val time = TimeUtils.getCurrentTime()
         for (i in 0 until classes.size) {
-            if (classes[i].day < day || TimeUtils.compareTime(classes[i].endTime, time) < 0)
+            if (classes[i].day < day)
                 continue
             if (isFirstLesson(classes, i)) {
                 data.add(ListItem(day = classes[i].day))

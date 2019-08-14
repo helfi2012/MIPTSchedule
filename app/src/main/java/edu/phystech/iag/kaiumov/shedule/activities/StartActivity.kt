@@ -1,22 +1,33 @@
 package edu.phystech.iag.kaiumov.shedule.activities
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import android.preference.PreferenceManager
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.View
 import android.widget.ArrayAdapter
+import androidx.appcompat.app.AppCompatActivity
 import edu.phystech.iag.kaiumov.shedule.*
+import edu.phystech.iag.kaiumov.shedule.notification.Alarm
 import kotlinx.android.synthetic.main.activity_start.*
 
 
 class StartActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        val preferences = PreferenceManager.getDefaultSharedPreferences(this)
+        val nightMode = preferences.getBoolean(getString(R.string.pref_night_key), false)
+        if (nightMode) {
+            setTheme(R.style.AppTheme_Dark)
+        }
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_start)
 
-        val timetable = (application as ScheduleApp).timetable ?: return
-        val adapter = ArrayAdapter<String>(applicationContext, R.layout.search_item)
+        val timetable = (application as ScheduleApp).timetable
+        var adapter = ArrayAdapter<String>(applicationContext, R.layout.search_item_day)
+        if (nightMode) {
+            adapter = ArrayAdapter(applicationContext, R.layout.search_item_night)
+        }
         searchList.adapter = adapter
 
         searchView.addTextChangedListener(object : TextWatcher {
@@ -32,7 +43,12 @@ class StartActivity : AppCompatActivity() {
 
         searchList.setOnItemClickListener { _, _, position, _ ->
             Utils.addKey(applicationContext, adapter.getItem(position)!!)
+            Alarm.schedule(this)
             finish()
+        }
+
+        if (nightMode) {
+            imageView.visibility = View.INVISIBLE
         }
     }
 

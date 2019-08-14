@@ -19,7 +19,7 @@
             android:layout_alignParentBottom="true"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
-            android:background="@color/colorPrimary"
+            android:background="@color/colorPrimaryDay"
             android:contentDescription="@string/prev_button"
             android:src="@drawable/ic_prev" />
 
@@ -45,7 +45,7 @@
             android:layout_alignParentBottom="true"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
-            android:background="@color/colorPrimary"
+            android:background="@color/colorPrimaryDay"
             android:contentDescription="@string/next_button"
             android:src="@drawable/ic_next" />
     </RelativeLayout>

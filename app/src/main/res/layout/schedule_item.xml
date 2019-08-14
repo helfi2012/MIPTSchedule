@@ -6,8 +6,8 @@
     android:layout_height="wrap_content"
     android:gravity="top"
     android:orientation="vertical"
-    android:paddingStart="@dimen/widget_margin"
-    android:paddingEnd="@dimen/widget_margin" >
+    android:paddingStart="16dp"
+    android:paddingEnd="16dp" >
 
     <LinearLayout
         android:id="@+id/scheduleMainLayout"
@@ -23,7 +23,7 @@
             android:layout_height="match_parent"
             android:gravity="center_horizontal"
             android:orientation="vertical"
-            android:background="@drawable/time_lec"
+            android:background="@drawable/bg_item_lec"
             android:clickable="false">
 
             <TextView

@@ -4,17 +4,15 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.preference.PreferenceManager
-import android.support.v4.content.ContextCompat
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.RecyclerView
 import com.saber.stickyheader.stickyView.StickHeaderRecyclerView
 import edu.phystech.iag.kaiumov.shedule.Keys
 import edu.phystech.iag.kaiumov.shedule.R
 import edu.phystech.iag.kaiumov.shedule.activities.EditActivity
-import edu.phystech.iag.kaiumov.shedule.activities.MainActivity
 import edu.phystech.iag.kaiumov.shedule.model.ScheduleItem
 import edu.phystech.iag.kaiumov.shedule.model.TimeUtils
 import kotlinx.android.synthetic.main.recycler_header.view.*
@@ -23,6 +21,13 @@ import kotlinx.android.synthetic.main.schedule_item.view.*
 
 class RecyclerAdapter(private val activity: Activity, private val key: String) :
         StickHeaderRecyclerView<ScheduleItem, HeaderDataImpl>() {
+
+    private var nightMode = false
+
+    init {
+        val preferences = PreferenceManager.getDefaultSharedPreferences(activity)
+        nightMode = preferences.getBoolean(activity.resources.getString(R.string.pref_night_key), false)
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val layoutInflater = parent.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE)
@@ -38,7 +43,10 @@ class RecyclerAdapter(private val activity: Activity, private val key: String) :
     override fun bindHeaderData(header: View?, headerPosition: Int) {
         header ?: return
         val headerDataImpl = getHeaderDataInPosition(headerPosition)
-        header.findViewById<TextView>(R.id.headerText).text = headerDataImpl.text
+        header.headerText.text = headerDataImpl.text
+        if (nightMode) {
+            header.headerRoot.setBackgroundResource(R.drawable.bg_header_night)
+        }
 //        val imageView = header.findViewById<ImageView>(R.id.imageView)
 //        val id = getDrawableId(headerDataImpl.day)
 //        if (imageView.tag is Int && imageView.tag == id)
@@ -78,7 +86,7 @@ class RecyclerAdapter(private val activity: Activity, private val key: String) :
             }
 
             val preferences = PreferenceManager.getDefaultSharedPreferences(activity)
-            val spaces = preferences.getBoolean(Keys.PREF_SPACES, false)
+            val spaces = preferences.getBoolean(context.resources.getString(R.string.pref_spaces_key), false)
             // Create spaces
 
             if (spaces && item.tag != null && item.tag is ScheduleItem) {
@@ -87,15 +95,15 @@ class RecyclerAdapter(private val activity: Activity, private val key: String) :
                         (TimeUtils.length(nextItem.startTime, item.startTime) *
                                 context.resources.getDimension(R.dimen.schedule_item_height)).toInt()
             }
-            val act = activity as MainActivity
-            if (act.listItemView == null)
-                act.listItemView = itemView.scheduleMainLayout
         }
     }
 
     inner class HeaderViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         fun bindView(headerDataImpl: HeaderDataImpl) {
             itemView.headerText.text = headerDataImpl.text
+            if (nightMode) {
+                itemView.headerRoot.setBackgroundResource(R.drawable.bg_header_night)
+            }
 //            val id = getDrawableId(headerDataImpl.day)
 //            if (itemView.imageView.tag is Int && itemView.imageView.tag == id)
 //                return
@@ -107,9 +115,9 @@ class RecyclerAdapter(private val activity: Activity, private val key: String) :
     companion object {
         internal fun lessonDrawable(type: String): Int {
             return when (type) {
-                "LAB" -> R.drawable.time_lab
-                "SEM" -> R.drawable.time_sem
-                else -> R.drawable.time_lec
+                "LAB" -> R.drawable.bg_item_lab
+                "SEM" -> R.drawable.bg_item_sem
+                else -> R.drawable.bg_item_lec
             }
         }
     }

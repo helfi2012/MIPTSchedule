@@ -1,20 +1,21 @@
 package edu.phystech.iag.kaiumov.shedule.activities
 
-import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
 import android.preference.PreferenceManager
-import android.support.v7.app.AlertDialog
-import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
+import androidx.interpolator.view.animation.LinearOutSlowInInterpolator
 import edu.phystech.iag.kaiumov.shedule.*
+import edu.phystech.iag.kaiumov.shedule.model.ScheduleItem
+import edu.phystech.iag.kaiumov.shedule.notification.Alarm
 import kotlinx.android.synthetic.main.activity_main.*
-import uk.co.deanwild.materialshowcaseview.MaterialShowcaseSequence
-import uk.co.deanwild.materialshowcaseview.MaterialShowcaseView
-import uk.co.deanwild.materialshowcaseview.ShowcaseConfig
+import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt
+import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetSequence
+import uk.co.samuelwall.materialtaptargetprompt.extras.backgrounds.FullscreenPromptBackground
+import uk.co.samuelwall.materialtaptargetprompt.extras.focals.RectanglePromptFocal
 
 
 class MainActivity : AppCompatActivity() {
@@ -22,127 +23,22 @@ class MainActivity : AppCompatActivity() {
     private var page = Keys.DEFAULT_PAGE
     private var keys: List<String>? = null
 
-    internal var listItemView: View? = null
-    private var addButtonView: View? = null
-
-    /**
-     * Creates alert dialog to ask user whether to reset schedule or not.
-     */
-    private fun showConfirmDialog() {
-        val app = application as ScheduleApp
-        val alertDialog = AlertDialog.Builder(this)
-        alertDialog.setTitle(getString(R.string.dialog_title))
-        alertDialog.setMessage(getString(R.string.reset_message))
-        alertDialog.setPositiveButton(getString(R.string.button_yes)) { dialogInterface: DialogInterface, _: Int ->
-            dialogInterface.cancel()
-            app.resetSchedule(this) { createTimeTable() }
-        }
-        alertDialog.setNegativeButton(getString(R.string.button_no)) { dialogInterface: DialogInterface, _: Int ->
-            dialogInterface.cancel()
-        }
-        alertDialog.setCancelable(true)
-        alertDialog.create().show()
-    }
-
-    /**
-     * Show intro tips after schedule and menu options are created.
-     */
-    private fun showTips() {
-        val config = ShowcaseConfig()
-        config.delay = 200
-        val sequence = MaterialShowcaseSequence(this, "3")
-        sequence.setConfig(config)
-        if (addButtonView != null)
-            sequence.addSequenceItem(MaterialShowcaseView.Builder(this)
-                    .setTarget(addButtonView)
-                    .setDismissText(getString(R.string.confirm_tip))
-                    .setContentText(getString(R.string.add_group_tip))
-                    .setTargetTouchable(false)
-                    .singleUse("0")
-                    .setDismissOnTouch(true)
-                    .build())
-        sequence.addSequenceItem(MaterialShowcaseView.Builder(this)
-                .setTarget(createButton)
-                .setDismissText(getString(R.string.confirm_tip))
-                .setContentText(getString(R.string.fab_tip))
-                .setTargetTouchable(false)
-                .singleUse("1")
-                .setDismissOnTouch(true)
-                .build())
-        if (listItemView != null)
-            sequence.addSequenceItem(MaterialShowcaseView.Builder(this)
-                    .setTarget(listItemView)
-                    .setDismissText(getString(R.string.confirm_tip))
-                    .setContentText(getString(R.string.list_tip))
-                    .withRectangleShape()
-                    .setTargetTouchable(false)
-                    .singleUse("2")
-                    .setDismissOnTouch(true)
-                    .build())
-        sequence.start()
-    }
-
-    /**
-     * Creating pager view with recycler view fragments
-     */
-    private fun createTimeTable() {
-        keys = Utils.loadKeys(applicationContext)
-        val app = application as ScheduleApp
-        val timetable = app.timetable ?: return
-        if (keys == null) {
-            // Start selection activity to select group
-            startActivity(Intent(this, StartActivity::class.java))
-        } else
-        if (timetable.isNotEmpty()) {
-            // Creating schedule view
-            pager.adapter = DaysPagerAdapter(timetable, keys!!, supportFragmentManager)
-            tabs.setupWithViewPager(pager)
-            pager.currentItem = page
-        }
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.main_menu, menu)
-        // Spaces switcher initializing
-        menu.findItem(R.id.spaces_switcher).isChecked =
-                PreferenceManager.getDefaultSharedPreferences(applicationContext).getBoolean(Keys.PREF_SPACES, false)
-        Handler().post {
-            addButtonView = findViewById(R.id.add_group)
-            showTips()
-        }
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val id = item.itemId
-        page = pager.currentItem
-        when (id) {
-            R.id.add_group -> startActivity(Intent(this, StartActivity::class.java))
-            R.id.reset_schedule -> showConfirmDialog()
-            R.id.delete_group -> {
-                val keys = Utils.loadKeys(applicationContext)!!.toMutableList()
-                val keyToRemove = keys[pager.currentItem]
-                keys.remove(keyToRemove)
-                Utils.modifyKeys(applicationContext, keys)
-                createTimeTable()
-            }
-            R.id.spaces_switcher -> {
-                // turn on/off spaces between lessons
-                val preferences = PreferenceManager.getDefaultSharedPreferences(applicationContext)
-                item.isChecked = !preferences.getBoolean(Keys.PREF_SPACES, false)
-                val editor = preferences.edit()
-                editor.putBoolean(Keys.PREF_SPACES, item.isChecked)
-                editor.apply()
-                createTimeTable()
-            }
-        }
-        return true
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
+        val preferences = PreferenceManager.getDefaultSharedPreferences(this)
+        val nightMode = preferences.getBoolean(getString(R.string.pref_night_key), false)
+        if (nightMode) {
+            setTheme(R.style.AppTheme_NoActionBar_Dark)
+        }
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
+        if (nightMode) {
+            toolbar.popupTheme = android.R.style.ThemeOverlay_Material_Dark
+            stars.visibility = View.VISIBLE
+            starsWhite.visibility = View.VISIBLE
+            stars.onStart()
+            starsWhite.onStart()
+        }
         supportActionBar!!.title = resources.getString(R.string.app_name)
         pager.offscreenPageLimit = 7
         // New lesson button listener
@@ -152,6 +48,9 @@ class MainActivity : AppCompatActivity() {
             intent.action = Keys.ACTION_NEW
             intent.putExtra(Keys.KEY, keys!![page])
             startActivity(intent)
+//            val item = ScheduleItem("Мат. Анализ", "Иванов Г.Е", "239 НК", 0,
+//                    "LEC", "12:15", "14:00", "")
+//            Alarm.showNotification(this, item)
         }
     }
 
@@ -166,5 +65,100 @@ class MainActivity : AppCompatActivity() {
         // Load current day and create schedule
         page = intent.getIntExtra(Keys.PAGE, Keys.DEFAULT_PAGE)
         createTimeTable()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.main_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val id = item.itemId
+        page = pager.currentItem
+        when (id) {
+            R.id.add_group -> startActivity(Intent(this, StartActivity::class.java))
+            R.id.delete_group -> {
+                val keys = Utils.loadKeys(applicationContext)!!.toMutableList()
+                val keyToRemove = keys[pager.currentItem]
+                keys.remove(keyToRemove)
+                Utils.modifyKeys(applicationContext, keys)
+                Alarm.schedule(this)
+                createTimeTable()
+            }
+            R.id.settings_button -> {
+                startActivity(Intent(this, SettingsActivity::class.java))
+                finish()
+            }
+        }
+        return true
+    }
+
+    /**
+     * This view is needed to show intro tip. It is set from DayFragment
+     */
+    var listItemView: View? = null
+    /**
+     * Show intro tips only once. This function is called from DayFragment
+     */
+    fun showTips() {
+        // Check if tips were already shown
+        val preferences = PreferenceManager.getDefaultSharedPreferences(applicationContext)
+        val key = getString(R.string.pref_tip_key)
+        val shown = preferences.getBoolean(key, false)
+        if (shown)
+            return
+        val editor = preferences.edit()
+        editor.putBoolean(key, true)
+        editor.apply()
+
+        // Show tips sequence
+        MaterialTapTargetSequence().addPrompt(MaterialTapTargetPrompt.Builder(this)
+                        .setTarget(createButton)
+                        .setPrimaryText(R.string.tip_add_subject_title)
+                        .setSecondaryText(R.string.tip_add_subject_summary)
+                        .setAnimationInterpolator(LinearOutSlowInInterpolator())
+                        .setFocalPadding(R.dimen.focal_padding)
+                        .setCaptureTouchEventOutsidePrompt(true)
+                        .setCaptureTouchEventOnFocal(true)
+                        .create())
+                .addPrompt(MaterialTapTargetPrompt.Builder(this)
+                        .setTarget(findViewById<View>(R.id.add_group))
+                        .setPrimaryText(getString(R.string.tip_add_group_title))
+                        .setSecondaryText(getString(R.string.tip_add_group_summary))
+                        .setAnimationInterpolator(LinearOutSlowInInterpolator())
+                        .setFocalPadding(R.dimen.focal_padding)
+                        .setIcon(R.drawable.ic_add)
+                        .setCaptureTouchEventOutsidePrompt(true)
+                        .setCaptureTouchEventOnFocal(true)
+                        .create())
+                .addPrompt(MaterialTapTargetPrompt.Builder(this)
+                        .setTarget(listItemView)
+                        .setPrimaryText(R.string.tip_edit_title)
+                        .setSecondaryText(R.string.tip_edit_summary)
+                        .setPromptBackground(FullscreenPromptBackground())
+                        .setPromptFocal(RectanglePromptFocal())
+                        .setCaptureTouchEventOutsidePrompt(true)
+                        .setCaptureTouchEventOnFocal(true)
+                        .create())
+                .show()
+    }
+
+    /**
+     * Creating pager view with recycler view fragments
+     */
+    private fun createTimeTable() {
+        keys = Utils.loadKeys(applicationContext)
+        val app = application as ScheduleApp
+        val timetable = app.timetable
+        if (keys == null) {
+            // Start selection activity to select group
+            startActivity(Intent(this, StartActivity::class.java))
+        } else
+            if (timetable.isNotEmpty()) {
+                // Creating schedule view
+                pager.adapter = DaysPagerAdapter(timetable, keys!!, supportFragmentManager)
+                tabs.setupWithViewPager(pager)
+                pager.currentItem = page
+            }
     }
 }

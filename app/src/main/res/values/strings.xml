@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Schedule</string>
     <!-- MainActivity -->
-    <string name="reset_schedule">Reset schedule</string>
+
     <string name="delete_group">Delete group</string>
     <string name="spaces_switcher">Spaces</string>
     <string-array name="week">
@@ -14,12 +14,14 @@
         <item>Sunday</item>
     </string-array>
     <!-- Tips -->
-    <string name="add_group_tip">Now you can see many groups at once. Just click on "+" button to add new group</string>
-    <string name="list_tip">Tap to edit</string>
-    <string name="fab_tip">Add new</string>
-    <string name="confirm_tip">Got it!</string>
+    <string name="tip_add_group_title">Add group</string>
+    <string name="tip_add_group_summary">Now you can see many groups at once. Just click on "+" button to add new group</string>
+    <string name="tip_edit_title">Tap to edit</string>
+    <string name="tip_edit_summary">You can edit any subject, just click on it!</string>
+    <string name="tip_add_subject_title">Add new subject</string>
+    <string name="tip_add_subject_summary">You can easily add new subject</string>
     <!-- Start Activity -->
-    <string name="edit_text_hint">Enter your group</string>
+    <string name="edit_text_hint">Enter your group number</string>
     <string name="button_start">Start</string>
     <string name="search_hint">Search for a group</string>
     <!-- EditActivity -->
@@ -51,9 +53,68 @@
     <string name="button_yes">Yes</string>
     <string name="button_no">No</string>
     <!-- TimePicker -->
-    <string name="time_picker_title">Choose time</string>
     <!-- Widget -->
     <string name="next_button" translatable="false">Next</string>
     <string name="prev_button" translatable="false">Previous</string>
     <string name="image" translatable="false">Image</string>
+
+
+    <!-- Settings Activity -->
+
+    <string name="title_activity_settings">Settings</string>
+
+    <!-- Appearance Preferences -->
+
+    <string name="pref_header_appearance">Appearance</string>
+
+    <string name="pref_spaces_title">Spaces</string>
+    <string name="pref_spaces_summary">Spaces between subjects</string>
+
+    <string name="pref_night_title">Night mode</string>
+    <string name="pref_night_summary">Enables Night (Dark) theme</string>
+
+    <!-- Schedule Preferences -->
+    <string name="pref_header_data_sync">Schedule</string>
+
+    <string name="pref_reset_title">Reset schedule</string>
+    <string name="pref_reset_summary">Delete all changes you\'ve made</string>
+
+    <!-- Notification Preferences -->
+    <string name="pref_header_notifications">Notifications</string>
+
+    <string name="pref_lesson_notification_title">Lesson notifications</string>
+    <string name="pref_lesson_notification_summary">App will notify before each lesson </string>
+
+    <string name="pref_notification_before_title">Notify about the lesson in</string>
+    <string-array name="pref_notification_before_list_titles">
+        <item>1 minute</item>
+        <item>2 minute</item>
+        <item>5 minutes</item>
+        <item>10 minutes</item>
+    </string-array>
+    <string-array name="pref_notification_before_list_values">
+        <item>1</item>
+        <item>2</item>
+        <item>5</item>
+        <item>10</item>
+    </string-array>
+
+    <string name="pref_title_ringtone">Ringtone</string>
+    <string name="pref_ringtone_silent">Silent</string>
+
+    <string name="pref_title_vibrate">Vibrate</string>
+
+    <string name="pref_system_notification_title">System settings</string>
+
+    <!-- Communication Preferences -->
+
+    <string name="pref_header_communication">Communication</string>
+    <string name="pref_write_developer_title">Write to developer</string>
+    <string name="pref_write_developer_url" translatable="false">https://vk.com/yasha_kayumov</string>
+
+    <string name="pref_rate_app_title">Rate this app</string>
+    <string name="pref_rate_app_url" translatable="false">https://play.google.com/store/apps/details?id=edu.phystech.iag.kaiumov.schedule</string>
+
+    <!-- Notifications -->
+
 </resources>

@@ -21,6 +21,15 @@ object TimeUtils {
         return abs((s2[0] - s1[0]) * 60 + s2[1] - s1[1]) / 60.0
     }
 
+    fun getCalendarTime(day: Int, t: String): Calendar {
+        val calendar = Calendar.getInstance()
+        val split = t.split(":")
+        calendar.set(Calendar.DAY_OF_WEEK, if (day in 1..5) day + 1 else day - 6)
+        calendar.set(Calendar.HOUR_OF_DAY, split[0].toInt())
+        calendar.set(Calendar.MINUTE, split[1].toInt())
+        return calendar
+    }
+
     /**
      * @return day number from Monday - 1 to Sunday - 7
      */

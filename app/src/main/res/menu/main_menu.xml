@@ -6,17 +6,12 @@
         android:title=""
         android:icon="@drawable/ic_add"
         app:showAsAction="ifRoom" />
-    <group
-        android:id="@+id/group1">
-        <item
-            android:id="@+id/spaces_switcher"
-            android:title="@string/spaces_switcher"
-            android:checkable="true" />
-        <item
-            android:id="@+id/reset_schedule"
-            android:title="@string/reset_schedule" />
+    <group>
         <item
             android:id="@+id/delete_group"
             android:title="@string/delete_group" />
+        <item
+            android:id="@+id/settings_button"
+            android:title="@string/title_activity_settings" />
     </group>
 </menu>

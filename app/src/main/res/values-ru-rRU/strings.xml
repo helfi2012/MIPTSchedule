@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Расписание</string>
-    <string name="edit_text_hint">Введите свою группу</string>
+    <string name="edit_text_hint">Введите номер своей группы</string>
     <string name="button_start">Поехали!</string>
     <string name="search_hint">Поиск группы</string>
 
@@ -28,21 +28,48 @@
     <string name="type_hint">Тип занятия</string>
     <string name="title_new">Новый предмет</string>
     <string name="title_edit">Редактировать</string>
-    <string name="time_picker_title">Выберите время</string>
     <string name="error_empty_string">Введите название</string>
     <string name="error_hint">Невозможно сохранить</string>
     <string name="error_time">Некорректное время</string>
-    <string name="reset_schedule">Сбросить изменения</string>
     <string name="delete_message">Вы действительно хотите удалить?</string>
     <string name="reset_message">Вы действительно хотите сбросить?</string>
     <string name="button_yes">Да</string>
     <string name="button_no">Нет</string>
     <string name="dialog_title">Подтверждение</string>
-    <string name="list_tip">Нажми, чтобы изменить</string>
-    <string name="fab_tip">Добавь новый предмет</string>
-    <string name="confirm_tip">Понял!</string>
     <string name="spaces_switcher">Пробелы</string>
     <string name="delete_group">Удалить группу</string>
     <string name="day_hint">День недели</string>
-    <string name="add_group_tip">Теперь ты можешь просматривать несколько групп одновременно. Просто нажми \"+\", чтобы добавить новую группу</string>
+    <string name="tip_add_group_title">Добавить группу</string>
+    <string name="tip_add_subject_title">Добавить пару</string>
+    <string name="tip_edit_title">Нажми, чтобы изменить</string>
+    <string name="tip_add_subject_summary">Вы с легкостью можете добавить новое занятие</string>
+    <string name="tip_add_group_summary">Теперь можно просматривать несколько групп одновременно. Просто нажми, чтобы добавить новую группу для просмотра</string>
+    <string name="tip_edit_summary">Просто нажми, чтобы отредактировать</string>
+    <string name="title_activity_settings">Настройки</string>
+    <string name="pref_spaces_title">Пробелы</string>
+    <string name="pref_spaces_summary">Временные интервалы между занятиями</string>
+    <string name="pref_night_title">Ночная тема</string>
+    <string name="pref_night_summary">Включить ночную (темную) тему</string>
+    <string name="pref_reset_title">Сброить изменения</string>
+    <string name="pref_reset_summary">Удалить все изменения, внесенные в расписание</string>
+    <string name="pref_header_notifications">Уведомления</string>
+    <string name="pref_title_vibrate">Вибрация</string>
+    <string name="pref_header_appearance">Внешний вид</string>
+    <string name="pref_lesson_notification_summary">Уведомления будут появлятся перед каждым занятием</string>
+    <string name="pref_lesson_notification_title">Уведомление о предстоящем занятии</string>
+    <string name="pref_title_ringtone">Звук уведомления</string>
+    <string name="pref_ringtone_silent">Тишина</string>
+    <string name="pref_header_data_sync">Расписание</string>
+    <string name="pref_header_communication">Обратная связь</string>
+    <string name="pref_rate_app_title">Оценить приложение</string>
+    <string name="pref_notification_before_title">Уведомлять о занятии за</string>
+    <string name="pref_system_notification_title">Системные настройки</string>
+
+    <string-array name="pref_notification_before_list_titles">
+        <item>1 минуту</item>
+        <item>2 минуты</item>
+        <item>5 минут</item>
+        <item>10 минут</item>
+    </string-array>
+    <string name="pref_write_developer_title">Написать разработчику</string>
 </resources>

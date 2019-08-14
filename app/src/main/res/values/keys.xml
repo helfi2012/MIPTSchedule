@@ -8,4 +8,22 @@
         <item>LEC</item>
         <item>LAB</item>
     </string-array>
+
+    <!-- Tips -->
+    <string name="pref_tip_key" translatable="false">pref_tip</string>
+
+    <!-- Settings Activity -->
+    <string name="pref_spaces_key" translatable="false">pref_spaces</string>
+    <string name="pref_night_key" translatable="false">pref_night</string>
+
+    <string name="pref_reset_key" translatable="false">pref_reset</string>
+
+    <string name="pref_notification_enabled_key" translatable="false">pref_notification_enabled</string>
+    <string name="pref_notification_before_key" translatable="false">pref_notification_before</string>
+    <string name="pref_notification_ringtone_key" translatable="false">pref_notification_ringtone</string>
+    <string name="pref_notification_vibrate_key" translatable="false">pref_notification_vibrate</string>
+    <string name="pref_notification_system_key" translatable="false">pref_notification_system</string>
+
+    <string name="pref_notification_size_key" translatable="false">pref_notification_size</string>
+
 </resources>

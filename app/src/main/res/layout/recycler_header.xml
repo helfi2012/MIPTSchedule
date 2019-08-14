@@ -2,20 +2,31 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="60dp"
+    android:layout_height="wrap_content"
+    android:padding="8dp"
     android:gravity="top"
-    android:orientation="vertical"
-    android:background="@drawable/header_text_background">
+    android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/headerText"
+    <FrameLayout
+        android:id="@+id/headerRoot"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:ellipsize="end"
-        android:fontFamily="sans-serif-medium"
-        android:padding="@dimen/activity_horizontal_margin"
-        android:textColor="@android:color/white"
-        android:textSize="20sp"
-        tools:text="Monday" />
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:background="@drawable/bg_header_day">
+
+        <TextView
+            android:id="@+id/headerText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:ellipsize="end"
+            android:fontFamily="sans-serif-medium"
+            android:textColor="@android:color/white"
+            android:textSize="20sp"
+            tools:text="Monday" />
+    </FrameLayout>
 
 </FrameLayout>

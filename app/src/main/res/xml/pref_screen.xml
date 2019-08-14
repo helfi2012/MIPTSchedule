@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="@string/pref_header_appearance">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="@string/pref_spaces_key"
+            android:summary="@string/pref_spaces_summary"
+            android:title="@string/pref_spaces_title" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="@string/pref_night_key"
+            android:summary="@string/pref_night_summary"
+            android:title="@string/pref_night_title" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/pref_header_notifications">
+        <SwitchPreference
+            android:key="@string/pref_notification_enabled_key"
+            android:defaultValue="true"
+            android:title="@string/pref_lesson_notification_title"
+            android:summary="@string/pref_lesson_notification_summary" />
+
+        <ListPreference
+            android:key="@string/pref_notification_before_key"
+            android:dependency="@string/pref_notification_enabled_key"
+            android:title="@string/pref_notification_before_title"
+            android:entries="@array/pref_notification_before_list_titles"
+            android:entryValues="@array/pref_notification_before_list_values"
+            android:defaultValue="5"
+            android:negativeButtonText="@null"
+            android:positiveButtonText="@null" />
+
+        <RingtonePreference
+            android:key="@string/pref_notification_ringtone_key"
+            android:defaultValue="content://settings/system/notification_sound"
+            android:dependency="@string/pref_notification_enabled_key"
+            android:ringtoneType="notification"
+            android:showDefault="true"
+            android:showSilent="true"
+            android:title="@string/pref_title_ringtone" />
+
+        <SwitchPreference
+            android:key="@string/pref_notification_vibrate_key"
+            android:defaultValue="true"
+            android:dependency="@string/pref_notification_enabled_key"
+            android:title="@string/pref_title_vibrate" />
+
+        <Preference
+            android:key="@string/pref_notification_system_key"
+            android:title="@string/pref_system_notification_title">
+        </Preference>
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/pref_header_data_sync">
+        <Preference
+            android:key="@string/pref_reset_key"
+            android:title="@string/pref_reset_title"
+            android:summary="@string/pref_reset_summary" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/pref_header_communication">
+        <Preference
+            android:title="@string/pref_write_developer_title">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="@string/pref_write_developer_url" />
+        </Preference>
+
+        <Preference
+            android:title="@string/pref_rate_app_title">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="@string/pref_rate_app_url" />
+        </Preference>
+    </PreferenceCategory>
+</PreferenceScreen>

@@ -3,9 +3,7 @@ package edu.phystech.iag.kaiumov.shedule.activities
 import android.app.TimePickerDialog
 import android.content.DialogInterface
 import android.os.Bundle
-import android.support.design.widget.TextInputLayout
-import android.support.v7.app.AlertDialog
-import android.support.v7.app.AppCompatActivity
+import android.preference.PreferenceManager
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.Menu
@@ -14,6 +12,9 @@ import android.view.View
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.textfield.TextInputLayout
 import edu.phystech.iag.kaiumov.shedule.Keys
 import edu.phystech.iag.kaiumov.shedule.R
 import edu.phystech.iag.kaiumov.shedule.ScheduleApp
@@ -28,8 +29,14 @@ class EditActivity : AppCompatActivity() {
     private var action: String? = null
     private var key: String? = null
     private var item: ScheduleItem? = null
+    private var nightMode = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        val preferences = PreferenceManager.getDefaultSharedPreferences(this)
+        nightMode = preferences.getBoolean(getString(R.string.pref_night_key), false)
+        if (nightMode) {
+            setTheme(R.style.AppTheme_Dark)
+        }
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit)
 
@@ -179,13 +186,15 @@ class EditActivity : AppCompatActivity() {
         val t = editText.text.split(":").map { it.toInt() }
         val hour = t[0]
         val minute = t[1]
-        val mTimePicker = TimePickerDialog(this,
+        var style = TimePickerDialog.THEME_DEVICE_DEFAULT_LIGHT
+        if (nightMode)
+            style = TimePickerDialog.THEME_DEVICE_DEFAULT_DARK
+        val mTimePicker = TimePickerDialog(this, style,
                 TimePickerDialog.OnTimeSetListener { _, selectedHour, selectedMinute ->
                     val text = String.format("%02d", selectedHour) + ":" + String.format("%02d", selectedMinute)
                     editText.setText(text)
                 },
                 hour, minute, true)
-        mTimePicker.setTitle(getString(R.string.time_picker_title))
         mTimePicker.show()
     }
 
@@ -213,7 +222,7 @@ class EditActivity : AppCompatActivity() {
                 endTimeText.text.toString(),
                 notesText.text.toString())
         val app = application as ScheduleApp
-        val timetable = app.timetable ?: return
+        val timetable = app.timetable
         val lessons = timetable[key] ?: return
         lessons.add(newItem)
         lessons.sortWith(Comparator { t1, t2 ->
@@ -236,7 +245,7 @@ class EditActivity : AppCompatActivity() {
                 endTimeText.text.toString(),
                 notesText.text.toString())
         val app = application as ScheduleApp
-        val timetable = app.timetable ?: return
+        val timetable = app.timetable
         val lessons = timetable[key] ?: return
         val pos = lessons.indexOf(item!!)
         lessons[pos] = newItem
@@ -252,7 +261,7 @@ class EditActivity : AppCompatActivity() {
 
     private fun deleteItem() {
         val app = application as ScheduleApp
-        val timetable = app.timetable ?: return
+        val timetable = app.timetable
         val lessons = timetable[key!!] ?: return
         lessons.remove(item!!)
         timetable[key!!] = lessons

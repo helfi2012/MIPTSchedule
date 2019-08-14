@@ -22,6 +22,7 @@ allprojects {
         maven {
             url "https://oss.sonatype.org/content/repositories/snapshots"
         }
+        maven { url "http://dl.bintray.com/sofakingforever/libraries" }
         maven {
             url "https://jitpack.io"
         }

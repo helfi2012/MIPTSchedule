@@ -48,8 +48,8 @@
     </string-array>
     <!-- Confirm dialog -->
     <string name="dialog_title">Confirmation</string>
-    <string name="delete_message">Do you really want to delete?</string>
-    <string name="reset_message">Do you really want to reset?</string>
+    <string name="delete_message">Are you sure you want to delete?</string>
+    <string name="reset_message">"Are you sure that you want to reset? "</string>
     <string name="button_yes">Yes</string>
     <string name="button_no">No</string>
     <!-- TimePicker -->
@@ -67,11 +67,22 @@
 
     <string name="pref_header_appearance">Appearance</string>
 
-    <string name="pref_spaces_title">Spaces</string>
-    <string name="pref_spaces_summary">Spaces between subjects</string>
+    <string name="pref_theme_title">Choose theme</string>
 
-    <string name="pref_night_title">Night mode</string>
-    <string name="pref_night_summary">Enables Night (Dark) theme</string>
+    <string-array name="pref_theme_list_titles">
+        <item>Light</item>
+        <item>Dark</item>
+        <item>Set by battery saver</item>
+    </string-array>
+
+    <string-array name="pref_theme_list_values">
+        <item>light</item>
+        <item>dark</item>
+        <item>default</item>
+    </string-array>
+
+    <string name="pref_spaces_title">Spaces</string>
+    <string name="pref_spaces_summary">Time intervals between subjects</string>
 
     <!-- Schedule Preferences -->
     <string name="pref_header_data_sync">Schedule</string>
@@ -83,7 +94,7 @@
     <string name="pref_header_notifications">Notifications</string>
 
     <string name="pref_lesson_notification_title">Lesson notifications</string>
-    <string name="pref_lesson_notification_summary">App will notify before each lesson </string>
+    <string name="pref_lesson_notification_summary">"App will notify you before each lesson "</string>
 
     <string name="pref_notification_before_title">Notify about the lesson in</string>
     <string-array name="pref_notification_before_list_titles">
@@ -99,7 +110,7 @@
         <item>10</item>
     </string-array>
 
-    <string name="pref_title_ringtone">Ringtone</string>
+    <string name="pref_title_ringtone">Sound</string>
     <string name="pref_ringtone_silent">Silent</string>
 
     <string name="pref_title_vibrate">Vibrate</string>
@@ -116,5 +127,13 @@
     <string name="pref_rate_app_url" translatable="false">https://play.google.com/store/apps/details?id=edu.phystech.iag.kaiumov.schedule</string>
 
     <!-- Notifications -->
+
+    <string name="notification_title" translatable="false">%s (%s)</string>
+    <plurals name="notification_text_time">
+        <item quantity="one">in %d minutes </item>
+        <item quantity="other">in %d minutes </item>
+    </plurals>
+
+    <string name="notification_text_place">\u0020in %s</string>
 
 </resources>

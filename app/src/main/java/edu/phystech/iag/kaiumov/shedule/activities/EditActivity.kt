@@ -3,7 +3,6 @@ package edu.phystech.iag.kaiumov.shedule.activities
 import android.app.TimePickerDialog
 import android.content.DialogInterface
 import android.os.Bundle
-import android.preference.PreferenceManager
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.Menu
@@ -18,7 +17,7 @@ import com.google.android.material.textfield.TextInputLayout
 import edu.phystech.iag.kaiumov.shedule.Keys
 import edu.phystech.iag.kaiumov.shedule.R
 import edu.phystech.iag.kaiumov.shedule.ScheduleApp
-import edu.phystech.iag.kaiumov.shedule.Utils
+import edu.phystech.iag.kaiumov.shedule.DataUtils
 import edu.phystech.iag.kaiumov.shedule.model.ScheduleItem
 import edu.phystech.iag.kaiumov.shedule.model.TimeUtils
 import kotlinx.android.synthetic.main.activity_edit.*
@@ -29,14 +28,8 @@ class EditActivity : AppCompatActivity() {
     private var action: String? = null
     private var key: String? = null
     private var item: ScheduleItem? = null
-    private var nightMode = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        val preferences = PreferenceManager.getDefaultSharedPreferences(this)
-        nightMode = preferences.getBoolean(getString(R.string.pref_night_key), false)
-        if (nightMode) {
-            setTheme(R.style.AppTheme_Dark)
-        }
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit)
 
@@ -83,7 +76,7 @@ class EditActivity : AppCompatActivity() {
 
     override fun onPause() {
         super.onPause()
-        Utils.hideKeyboard(this)
+        DataUtils.hideKeyboard(this)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -186,10 +179,7 @@ class EditActivity : AppCompatActivity() {
         val t = editText.text.split(":").map { it.toInt() }
         val hour = t[0]
         val minute = t[1]
-        var style = TimePickerDialog.THEME_DEVICE_DEFAULT_LIGHT
-        if (nightMode)
-            style = TimePickerDialog.THEME_DEVICE_DEFAULT_DARK
-        val mTimePicker = TimePickerDialog(this, style,
+        val mTimePicker = TimePickerDialog(this,
                 TimePickerDialog.OnTimeSetListener { _, selectedHour, selectedMinute ->
                     val text = String.format("%02d", selectedHour) + ":" + String.format("%02d", selectedMinute)
                     editText.setText(text)

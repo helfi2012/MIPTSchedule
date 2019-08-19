@@ -2,15 +2,17 @@ package edu.phystech.iag.kaiumov.shedule.activities
 
 import android.content.Intent
 import android.os.Bundle
-import android.preference.PreferenceManager
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.interpolator.view.animation.LinearOutSlowInInterpolator
+import androidx.preference.PreferenceManager
 import edu.phystech.iag.kaiumov.shedule.*
 import edu.phystech.iag.kaiumov.shedule.model.ScheduleItem
 import edu.phystech.iag.kaiumov.shedule.notification.Alarm
+import edu.phystech.iag.kaiumov.shedule.notification.Notificator
+import edu.phystech.iag.kaiumov.shedule.schedule_ui.DaysPagerAdapter
 import kotlinx.android.synthetic.main.activity_main.*
 import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt
 import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetSequence
@@ -24,19 +26,12 @@ class MainActivity : AppCompatActivity() {
     private var keys: List<String>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        val preferences = PreferenceManager.getDefaultSharedPreferences(this)
-        val nightMode = preferences.getBoolean(getString(R.string.pref_night_key), false)
-        if (nightMode) {
-            setTheme(R.style.AppTheme_NoActionBar_Dark)
-        }
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
-        if (nightMode) {
-            toolbar.popupTheme = android.R.style.ThemeOverlay_Material_Dark
-            stars.visibility = View.VISIBLE
+
+        if (ThemeHelper.isDark(this)) {
             starsWhite.visibility = View.VISIBLE
-            stars.onStart()
             starsWhite.onStart()
         }
         supportActionBar!!.title = resources.getString(R.string.app_name)
@@ -47,10 +42,10 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(applicationContext, EditActivity::class.java)
             intent.action = Keys.ACTION_NEW
             intent.putExtra(Keys.KEY, keys!![page])
-            startActivity(intent)
-//            val item = ScheduleItem("Мат. Анализ", "Иванов Г.Е", "239 НК", 0,
-//                    "LEC", "12:15", "14:00", "")
-//            Alarm.showNotification(this, item)
+            // startActivity(intent)
+            val item = ScheduleItem("Мат. Анализ", "Иванов Г.Е", "239 НК", 0,
+                    "LEC", "12:15", "14:00", "")
+            Notificator.showNotification(this, item)
         }
     }
 
@@ -78,16 +73,16 @@ class MainActivity : AppCompatActivity() {
         when (id) {
             R.id.add_group -> startActivity(Intent(this, StartActivity::class.java))
             R.id.delete_group -> {
-                val keys = Utils.loadKeys(applicationContext)!!.toMutableList()
+                val keys = DataUtils.loadKeys(applicationContext)!!.toMutableList()
                 val keyToRemove = keys[pager.currentItem]
                 keys.remove(keyToRemove)
-                Utils.modifyKeys(applicationContext, keys)
+                DataUtils.modifyKeys(applicationContext, keys)
                 Alarm.schedule(this)
                 createTimeTable()
             }
             R.id.settings_button -> {
                 startActivity(Intent(this, SettingsActivity::class.java))
-                finish()
+                // finish()
             }
         }
         return true
@@ -147,7 +142,7 @@ class MainActivity : AppCompatActivity() {
      * Creating pager view with recycler view fragments
      */
     private fun createTimeTable() {
-        keys = Utils.loadKeys(applicationContext)
+        keys = DataUtils.loadKeys(applicationContext)
         val app = application as ScheduleApp
         val timetable = app.timetable
         if (keys == null) {

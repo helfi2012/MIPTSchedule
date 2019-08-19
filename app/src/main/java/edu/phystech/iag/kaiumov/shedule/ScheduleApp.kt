@@ -5,6 +5,9 @@ import android.os.AsyncTask
 import edu.phystech.iag.kaiumov.shedule.model.Schedule
 import edu.phystech.iag.kaiumov.shedule.model.ScheduleItem
 import edu.phystech.iag.kaiumov.shedule.notification.Alarm
+import androidx.preference.PreferenceManager
+import edu.phystech.iag.kaiumov.shedule.notification.Notificator
+
 
 class ScheduleApp : Application() {
 
@@ -15,20 +18,24 @@ class ScheduleApp : Application() {
     override fun onCreate() {
         super.onCreate()
         // Load schedule from memory
-        schedule = Utils.loadSchedule(applicationContext)
+        schedule = DataUtils.loadSchedule(applicationContext)
         // If there is new version in assets, update schedule in memory
-        val initialSchedule = Utils.loadScheduleFromAssets(applicationContext)
+        val initialSchedule = DataUtils.loadScheduleFromAssets(applicationContext)
         if (schedule.version != initialSchedule.version) {
             schedule = initialSchedule
-            Utils.saveSchedule(applicationContext, schedule)
+            DataUtils.saveSchedule(applicationContext, schedule)
         }
-        Alarm.buildNotificationChannel(this)
+        Notificator.buildNotificationChannel(this)
+
+        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
+        val themePref = sharedPreferences.getString(getString(R.string.pref_theme_key), ThemeHelper.DEFAULT_MODE)
+        ThemeHelper.applyTheme(themePref!!)
     }
 
     fun resetSchedule() {
         AsyncTask.execute {
-            schedule = Utils.loadScheduleFromAssets(applicationContext)
-            Utils.saveSchedule(applicationContext, schedule)
+            schedule = DataUtils.loadScheduleFromAssets(applicationContext)
+            DataUtils.saveSchedule(applicationContext, schedule)
             Alarm.schedule(applicationContext, schedule)
         }
     }
@@ -36,7 +43,7 @@ class ScheduleApp : Application() {
     fun updateTimeTable(timetable: HashMap<String, ArrayList<ScheduleItem>>) {
         schedule.timetable = timetable
         AsyncTask.execute {
-            Utils.saveSchedule(applicationContext, schedule)
+            DataUtils.saveSchedule(applicationContext, schedule)
             Alarm.schedule(applicationContext, schedule)
         }
     }

@@ -15,7 +15,7 @@
         android:paddingEnd="16dp"
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
-        android:background="@drawable/bg_header_day">
+        android:background="@drawable/bg_header">
 
         <TextView
             android:id="@+id/headerText"

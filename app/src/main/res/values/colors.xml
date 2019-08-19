@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimaryDay">#0096a5</color>
-    <color name="colorPrimaryDarkDay">#006064</color>
-    <color name="colorAccentDay">#c1185b</color>
-
-    <color name="colorPrimaryNight">#333333</color>
-    <color name="colorPrimaryDarkNight">#1B1B1B</color>
-    <color name="colorAccentNight">#AD1457</color>
+    <color name="colorPrimary">#0096a5</color>
+    <color name="colorPrimaryDark">#006064</color>
+    <color name="colorAccent">#c1185b</color>
+    <color name="colorSecondary">#c1185b</color>
+    <color name="colorSurface">#FFFFFF</color>
+    <color name="colorOnSurface">#000000</color>
 
     <color name="tenderBlue">#80cbc4</color>
     <color name="tenderGreen">#69f0ae</color>

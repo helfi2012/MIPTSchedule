@@ -1,10 +1,6 @@
 package edu.phystech.iag.kaiumov.shedule
 
 object Keys {
-    // Preferences
-    const val PREF_GROUP = "group_number"
-
-    const val SCHEDULE_PATH = "schedule.json"
 
     const val PAGE = "edu.phystech.iag.kaiumov.shedule.widget.page"
     const val DEFAULT_PAGE = 0
@@ -15,5 +11,4 @@ object Keys {
 
     const val KEY = "edu.phystech.iag.kaiumov.shedule.key"
     const val ITEM = "edu.phystech.iag.kaiumov.shedule.schedule_item"
-    const val SEARCH_LIMIT = 10
 }

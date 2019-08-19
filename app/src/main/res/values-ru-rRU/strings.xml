@@ -28,11 +28,11 @@
     <string name="type_hint">Тип занятия</string>
     <string name="title_new">Новый предмет</string>
     <string name="title_edit">Редактировать</string>
-    <string name="error_empty_string">Введите название</string>
+    <string name="error_empty_string">Поле должно быть заполнено</string>
     <string name="error_hint">Невозможно сохранить</string>
     <string name="error_time">Некорректное время</string>
     <string name="delete_message">Вы действительно хотите удалить?</string>
-    <string name="reset_message">Вы действительно хотите сбросить?</string>
+    <string name="reset_message">Вы действительно хотите удалить все изменения?</string>
     <string name="button_yes">Да</string>
     <string name="button_no">Нет</string>
     <string name="dialog_title">Подтверждение</string>
@@ -48,16 +48,14 @@
     <string name="title_activity_settings">Настройки</string>
     <string name="pref_spaces_title">Пробелы</string>
     <string name="pref_spaces_summary">Временные интервалы между занятиями</string>
-    <string name="pref_night_title">Ночная тема</string>
-    <string name="pref_night_summary">Включить ночную (темную) тему</string>
     <string name="pref_reset_title">Сброить изменения</string>
     <string name="pref_reset_summary">Удалить все изменения, внесенные в расписание</string>
     <string name="pref_header_notifications">Уведомления</string>
     <string name="pref_title_vibrate">Вибрация</string>
-    <string name="pref_header_appearance">Внешний вид</string>
+    <string name="pref_header_appearance">Оформление</string>
     <string name="pref_lesson_notification_summary">Уведомления будут появлятся перед каждым занятием</string>
     <string name="pref_lesson_notification_title">Уведомление о предстоящем занятии</string>
-    <string name="pref_title_ringtone">Звук уведомления</string>
+    <string name="pref_title_ringtone">Звук оповещения</string>
     <string name="pref_ringtone_silent">Тишина</string>
     <string name="pref_header_data_sync">Расписание</string>
     <string name="pref_header_communication">Обратная связь</string>
@@ -72,4 +70,14 @@
         <item>10 минут</item>
     </string-array>
     <string name="pref_write_developer_title">Написать разработчику</string>
+    <string name="pref_theme_title">Выберите тему</string>
+
+    <plurals name="notification_text_time">
+        <item quantity="one">Через %d минуту</item>
+        <item quantity="few">Через %d минуты</item>
+        <item quantity="many">Через %d минут</item>
+        <item quantity="other">Через %d минут</item>
+    </plurals>
+
+    <string name="notification_text_place">\u0020в %s</string>
 </resources>

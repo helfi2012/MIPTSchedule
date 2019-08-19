@@ -5,7 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.widget.RemoteViews
 import android.widget.RemoteViewsService.RemoteViewsFactory
-import edu.phystech.iag.kaiumov.shedule.recyclerview.RecyclerAdapter
+import edu.phystech.iag.kaiumov.shedule.schedule_ui.RecyclerAdapter
 import edu.phystech.iag.kaiumov.shedule.R
 import edu.phystech.iag.kaiumov.shedule.model.ScheduleItem
 import edu.phystech.iag.kaiumov.shedule.model.TimeUtils

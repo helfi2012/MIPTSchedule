@@ -9,12 +9,14 @@
         <item>LAB</item>
     </string-array>
 
+    <string name="pref_group_key" translatable="false">group_number</string>
+
     <!-- Tips -->
     <string name="pref_tip_key" translatable="false">pref_tip</string>
 
     <!-- Settings Activity -->
     <string name="pref_spaces_key" translatable="false">pref_spaces</string>
-    <string name="pref_night_key" translatable="false">pref_night</string>
+    <string name="pref_theme_key" translatable="false">pref_theme</string>
 
     <string name="pref_reset_key" translatable="false">pref_reset</string>
 

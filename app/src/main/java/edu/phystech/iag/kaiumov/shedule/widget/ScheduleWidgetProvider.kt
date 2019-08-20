@@ -9,7 +9,7 @@ import android.net.Uri
 import android.widget.RemoteViews
 import edu.phystech.iag.kaiumov.shedule.Keys
 import edu.phystech.iag.kaiumov.shedule.R
-import edu.phystech.iag.kaiumov.shedule.Utils
+import edu.phystech.iag.kaiumov.shedule.DataUtils
 import edu.phystech.iag.kaiumov.shedule.activities.MainActivity
 
 
@@ -40,7 +40,7 @@ class ScheduleWidgetProvider : AppWidgetProvider() {
 
     private fun updateViews(context: Context, appWidgetManager: AppWidgetManager, appWidgetId: Int) {
         val views = RemoteViews(context.packageName, R.layout.widget_layout)
-        keys = Utils.loadKeys(context)
+        keys = DataUtils.loadKeys(context)
         setTextView(views)
         setListView(context, views, appWidgetId)
         setButton(context, views, appWidgetId, R.id.nextButton)

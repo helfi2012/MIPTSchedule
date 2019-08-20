@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#4D4D4D</color>
+    <color name="colorPrimaryDark">#4D4D4D</color>
+    <color name="colorAccent">#AD1457</color>
+    <color name="colorSecondary">#AD1457</color>
+    <color name="colorSurface">#000000</color>
+    <color name="colorOnSurface">#FFFFFF</color>
+
+    <color name="free">#008577</color>
+    <color name="lecture">#EC407A</color>
+    <color name="seminar">#3F51B5</color>
+    <color name="practice">#FFB300</color>
+</resources>

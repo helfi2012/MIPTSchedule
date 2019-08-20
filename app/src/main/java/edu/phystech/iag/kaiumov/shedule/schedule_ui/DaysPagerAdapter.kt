@@ -1,4 +1,4 @@
-package edu.phystech.iag.kaiumov.shedule
+package edu.phystech.iag.kaiumov.shedule.schedule_ui
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager

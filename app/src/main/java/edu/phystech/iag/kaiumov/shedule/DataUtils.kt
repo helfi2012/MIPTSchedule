@@ -2,7 +2,7 @@ package edu.phystech.iag.kaiumov.shedule
 
 import android.app.Activity
 import android.content.Context
-import android.preference.PreferenceManager
+import androidx.preference.PreferenceManager
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import com.google.gson.Gson
@@ -14,9 +14,10 @@ import java.io.FileNotFoundException
 import java.io.InputStreamReader
 
 
-object Utils {
+object DataUtils {
     private const val ENCODING = "UTF-8"
     private const val DELIMITER = "|"
+    private const val SCHEDULE_PATH = "schedule.json"
 
     internal fun hideKeyboard(activity: Activity) {
         val imm = activity.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
@@ -28,7 +29,8 @@ object Utils {
     }
 
     internal fun loadKeys(context: Context): List<String>? {
-        val s = PreferenceManager.getDefaultSharedPreferences(context).getString(Keys.PREF_GROUP, null)
+        val key = context.resources.getString(R.string.pref_group_key)
+        val s = PreferenceManager.getDefaultSharedPreferences(context).getString(key, null)
         return s?.split(DELIMITER)
     }
 
@@ -45,13 +47,14 @@ object Utils {
             if (i < keys.size - 1)
                 s += DELIMITER
         }
+        val key = context.resources.getString(R.string.pref_group_key)
         val editor = PreferenceManager.getDefaultSharedPreferences(context).edit()
-        editor.putString(Keys.PREF_GROUP, if (keys.isEmpty()) null else s)
+        editor.putString(key, if (keys.isEmpty()) null else s)
         editor.apply()
     }
 
     internal fun saveSchedule(context: Context, schedule: Schedule) {
-        val outputStream = context.openFileOutput(Keys.SCHEDULE_PATH, Context.MODE_PRIVATE)
+        val outputStream = context.openFileOutput(SCHEDULE_PATH, Context.MODE_PRIVATE)
         val json = Gson().toJson(schedule)
         outputStream.write(json.toByteArray())
         outputStream.close()
@@ -59,7 +62,7 @@ object Utils {
 
     internal fun loadSchedule(context: Context): Schedule {
         try {
-            val inputStream = context.openFileInput(Keys.SCHEDULE_PATH)
+            val inputStream = context.openFileInput(SCHEDULE_PATH)
             val bufferedReader = BufferedReader(InputStreamReader(inputStream, ENCODING))
             var output = ""
             while (true) {
@@ -78,7 +81,7 @@ object Utils {
 
     internal fun loadScheduleFromAssets(context: Context): Schedule {
         return Gson().fromJson<Schedule>(
-                IOUtils.toString(context.assets.open(Keys.SCHEDULE_PATH), ENCODING),
+                IOUtils.toString(context.assets.open(SCHEDULE_PATH), ENCODING),
                 object : TypeToken<Schedule>() {}.type
         )
     }

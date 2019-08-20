@@ -3,10 +3,10 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory app:title="@string/pref_header_appearance">
         <SwitchPreference
-            app:defaultValue="false"
-            app:key="@string/pref_spaces_key"
-            app:summary="@string/pref_spaces_summary"
-            app:title="@string/pref_spaces_title" />
+            android:defaultValue="false"
+            android:key="@string/pref_spaces_key"
+            android:summary="@string/pref_spaces_summary"
+            android:title="@string/pref_spaces_title" />
 
         <ListPreference
             app:key="@string/pref_theme_key"
@@ -35,18 +35,6 @@
             app:negativeButtonText="@null"
             app:positiveButtonText="@null"
             app:useSimpleSummaryProvider="true" />
-
-        <SwitchPreference
-            app:key="@string/pref_notification_ringtone_key"
-            app:dependency="@string/pref_notification_enabled_key"
-            app:title="@string/pref_title_ringtone"
-            app:defaultValue="true" />
-
-        <SwitchPreference
-            app:key="@string/pref_notification_vibrate_key"
-            app:defaultValue="true"
-            app:dependency="@string/pref_notification_enabled_key"
-            app:title="@string/pref_title_vibrate" />
 
         <Preference
             app:key="@string/pref_notification_system_key"

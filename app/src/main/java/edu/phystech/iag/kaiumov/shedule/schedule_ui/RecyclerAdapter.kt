@@ -1,9 +1,9 @@
-package edu.phystech.iag.kaiumov.shedule.recyclerview
+package edu.phystech.iag.kaiumov.shedule.schedule_ui
 
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.preference.PreferenceManager
+import androidx.preference.PreferenceManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,13 +22,6 @@ import kotlinx.android.synthetic.main.schedule_item.view.*
 class RecyclerAdapter(private val activity: Activity, private val key: String) :
         StickHeaderRecyclerView<ScheduleItem, HeaderDataImpl>() {
 
-    private var nightMode = false
-
-    init {
-        val preferences = PreferenceManager.getDefaultSharedPreferences(activity)
-        nightMode = preferences.getBoolean(activity.resources.getString(R.string.pref_night_key), false)
-    }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val layoutInflater = parent.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE)
                 as LayoutInflater
@@ -44,15 +37,6 @@ class RecyclerAdapter(private val activity: Activity, private val key: String) :
         header ?: return
         val headerDataImpl = getHeaderDataInPosition(headerPosition)
         header.headerText.text = headerDataImpl.text
-        if (nightMode) {
-            header.headerRoot.setBackgroundResource(R.drawable.bg_header_night)
-        }
-//        val imageView = header.findViewById<ImageView>(R.id.imageView)
-//        val id = getDrawableId(headerDataImpl.day)
-//        if (imageView.tag is Int && imageView.tag == id)
-//            return
-//        imageView.tag = id
-//        imageView.tag = imageView.setImageResource(id)
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -101,14 +85,6 @@ class RecyclerAdapter(private val activity: Activity, private val key: String) :
     inner class HeaderViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         fun bindView(headerDataImpl: HeaderDataImpl) {
             itemView.headerText.text = headerDataImpl.text
-            if (nightMode) {
-                itemView.headerRoot.setBackgroundResource(R.drawable.bg_header_night)
-            }
-//            val id = getDrawableId(headerDataImpl.day)
-//            if (itemView.imageView.tag is Int && itemView.imageView.tag == id)
-//                return
-//            itemView.imageView.tag = id
-//            itemView.imageView.tag = itemView.imageView.setImageResource(id)
         }
     }
 

@@ -1,4 +1,4 @@
-package edu.phystech.iag.kaiumov.shedule.recyclerview
+package edu.phystech.iag.kaiumov.shedule.schedule_ui
 
 import com.saber.stickyheader.stickyData.HeaderData
 import androidx.annotation.LayoutRes

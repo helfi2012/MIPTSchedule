@@ -8,6 +8,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Build
+import android.os.Handler
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
@@ -18,8 +19,32 @@ import edu.phystech.iag.kaiumov.shedule.model.ScheduleItem
 import edu.phystech.iag.kaiumov.shedule.model.TimeUtils
 import java.util.*
 import kotlin.math.roundToInt
+import android.content.BroadcastReceiver
+
 
 object Notificator {
+
+    private const val ACTION_CLICK = "ACTION_CLICK"
+
+    private const val ACTION_DELETE = "ACTION_DELETE"
+
+    class DeleteNotificationReceiver : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+            isShown = false
+            if (intent.action == ACTION_CLICK) {
+                // Cancel notification
+                val notificationManagerCompat = NotificationManagerCompat.from(context)
+                notificationManagerCompat.cancel(NOTIFICATION_ID)
+                // Start activity
+                val activityIntent = Intent(context, MainActivity::class.java)
+                activityIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
+                context.startActivity(activityIntent)
+            }
+        }
+    }
+
+    private var isShown = false
+
     private const val NOTIFICATION_ID = 228
     // This is the Notification Channel ID
     private const val NOTIFICATION_CHANNEL_ID = "schedule_channel_id"
@@ -52,30 +77,31 @@ object Notificator {
     fun showNotification(context: Context, item: ScheduleItem) {
         // Load preferences
         val preferences = PreferenceManager.getDefaultSharedPreferences(context)
-        val minutesBefore = ((TimeUtils.getCalendarTime(item.day, item.startTime).timeInMillis -
-                Calendar.getInstance().timeInMillis) / 1000.0 / 60.0).roundToInt()
+        val lessonTime = TimeUtils.getCalendarTime(item.day, item.startTime)
+        var minutesBefore = ((lessonTime.timeInMillis - Calendar.getInstance().timeInMillis) / 1000.0 / 60.0).roundToInt()
 
         val title = context.resources.getString(R.string.notification_title, item.name, item.startTime)
-        var text = context.resources.getQuantityString(R.plurals.notification_text_time, minutesBefore, minutesBefore)
-        if (item.place.isNotEmpty()) {
-            text += context.resources.getString(R.string.notification_text_place, item.place)
-        }
+        var contentText = generateContentText(context, item, minutesBefore)
+
         // Pending intent
-        val notificationIntent = Intent(context, MainActivity::class.java)
-        notificationIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
-        val pendingIntent = PendingIntent.getActivity(context, 0,
-                notificationIntent, PendingIntent.FLAG_ONE_SHOT)
+        val deleteIntent = Intent(context, DeleteNotificationReceiver::class.java)
+        deleteIntent.action = ACTION_DELETE
+        val clickIntent = Intent(context, DeleteNotificationReceiver::class.java)
+        clickIntent.action = ACTION_CLICK
+        val deletePendingIntent = PendingIntent.getBroadcast(context, NOTIFICATION_ID, deleteIntent, 0)
+        val clickPendingIntent = PendingIntent.getBroadcast(context, NOTIFICATION_ID, clickIntent, 0)
         // Notification Channel ID passed as a parameter here will be ignored for all the Android versions below 8.0
         val builder = NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID)
-        builder.priority = NotificationCompat.PRIORITY_HIGH
         builder
-                .setAutoCancel(true)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setContentTitle(title)
-                .setContentText(text)
-                .setStyle(NotificationCompat.BigTextStyle().bigText(text))
-                .setContentIntent(pendingIntent)
-                .setSmallIcon(R.drawable.ic_add)
+                .setContentText(contentText)
+                .setStyle(NotificationCompat.BigTextStyle().bigText(contentText))
+                .setContentIntent(clickPendingIntent)
+                .setDeleteIntent(deletePendingIntent)
+                .setSmallIcon(R.drawable.ic_calendar)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                .setOnlyAlertOnce(true)
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
             val ringtone = preferences.getBoolean(context.resources.getString(R.string.pref_notification_ringtone_key), true)
@@ -87,6 +113,38 @@ object Notificator {
 
         val notificationManagerCompat = NotificationManagerCompat.from(context)
         notificationManagerCompat.notify(NOTIFICATION_ID, builder.build())
+        isShown = true
+
+        val handler = Handler()
+        handler.postDelayed(object : Runnable {
+            override fun run() {
+                if (!isShown)
+                    return
+                val left = lessonTime.timeInMillis - Calendar.getInstance().timeInMillis
+                minutesBefore = (left / 1000.0 / 60.0).roundToInt()
+                contentText = generateContentText(context, item, minutesBefore)
+                builder
+                        .setPriority(NotificationCompat.PRIORITY_LOW)
+                        .setContentText(contentText)
+                        .setStyle(NotificationCompat.BigTextStyle().bigText(contentText))
+                notificationManagerCompat.notify(NOTIFICATION_ID, builder.build())
+                if (minutesBefore > 0) {
+                    handler.postDelayed(this, 30 * 1000)
+                }
+            }
+        }, 30 * 1000)
+    }
+
+    private fun generateContentText(context: Context, item: ScheduleItem, minutesBefore: Int) : String {
+        var text = if (minutesBefore > 0) {
+            context.resources.getQuantityString(R.plurals.notification_text_time, minutesBefore, minutesBefore)
+        } else {
+            context.resources.getString(R.string.notification_time_is_up)
+        }
+        if (item.place.isNotEmpty()) {
+            text += context.resources.getString(R.string.notification_text_place, item.place)
+        }
+        return text
     }
 
     private fun getDefaults(light: Boolean, vibrate: Boolean, sound: Boolean) : Int {

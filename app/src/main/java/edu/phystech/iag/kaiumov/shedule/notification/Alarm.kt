@@ -6,6 +6,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.os.Build
 import android.os.Bundle
 import androidx.preference.PreferenceManager
 import edu.phystech.iag.kaiumov.shedule.DataUtils
@@ -26,7 +27,7 @@ object Alarm {
     class AlarmNotificationReceiver : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             val preferences = PreferenceManager.getDefaultSharedPreferences(context)
-            val notificationEnabled = preferences.getBoolean(context.resources.getString(R.string.pref_notification_enabled_key), true)
+            val notificationEnabled = preferences.getBoolean(context.resources.getString(R.string.pref_notification_enabled_key), false)
             // display
             if (notificationEnabled) {
                 val scheduleItem = intent.getBundleExtra(Keys.ITEM)?.getSerializable(Keys.ITEM) as ScheduleItem
@@ -77,31 +78,33 @@ object Alarm {
                 time.add(Calendar.DAY_OF_YEAR, 7)
             }
             time.add(Calendar.MINUTE, -minutesBefore)
-            alarmManager.setRepeating(
-                    AlarmManager.RTC_WAKEUP,
-                    time.timeInMillis,
-                    INTERVAL_WEEK,
-                    pendingIntent
-            )
+            time.add(Calendar.MINUTE, -1)
+
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//                alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, time.timeInMillis, pendingIntent)
+//            } else {
+//                alarmManager.setExact(AlarmManager.RTC_WAKEUP, time.timeInMillis, pendingIntent)
+//            }
+            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, time.timeInMillis, INTERVAL_WEEK, pendingIntent)
         }
     }
 
     fun schedule(context: Context, schedule: Schedule) {
-        val keys = DataUtils.loadKeys(context)
-        if (keys == null) {
+        val key = DataUtils.loadNotificationKey(context)
+        if (key == null) {
             resetAlarm(context)
             return
         }
-        schedule(context, schedule, keys[0])
+        schedule(context, schedule, key)
     }
     
     fun schedule(context: Context) {
-        val keys = DataUtils.loadKeys(context)
-        if (keys == null) {
+        val key = DataUtils.loadNotificationKey(context)
+        if (key == null) {
             resetAlarm(context)
             return
         }
         val schedule = DataUtils.loadSchedule(context)
-        schedule(context, schedule, keys[0])
+        schedule(context, schedule, key)
     }
 }

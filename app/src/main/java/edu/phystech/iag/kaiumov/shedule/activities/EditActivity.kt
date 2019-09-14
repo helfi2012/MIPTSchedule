@@ -8,16 +8,17 @@ import android.text.TextWatcher
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.textfield.TextInputLayout
+import edu.phystech.iag.kaiumov.shedule.DataUtils
 import edu.phystech.iag.kaiumov.shedule.Keys
 import edu.phystech.iag.kaiumov.shedule.R
 import edu.phystech.iag.kaiumov.shedule.ScheduleApp
-import edu.phystech.iag.kaiumov.shedule.DataUtils
 import edu.phystech.iag.kaiumov.shedule.model.ScheduleItem
 import edu.phystech.iag.kaiumov.shedule.model.TimeUtils
 import kotlinx.android.synthetic.main.activity_edit.*
@@ -26,7 +27,7 @@ import kotlinx.android.synthetic.main.activity_edit.*
 class EditActivity : AppCompatActivity() {
 
     private var action: String? = null
-    private var key: String? = null
+    private var key : String? = null
     private var item: ScheduleItem? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,13 +36,15 @@ class EditActivity : AppCompatActivity() {
 
         // Set action bar according to type of activity (edit or create)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        // Get group number
-        key = intent.getStringExtra(Keys.KEY)
+
+        key = DataUtils.loadMainKey(applicationContext)
         // Two variants: 1) Add new lesson; 2) Edit existed one
         action = intent.action
         when (intent.action) {
             Keys.ACTION_NEW -> {
                 supportActionBar?.title = getString(R.string.title_new)
+                val defaultDay = intent.getIntExtra(Keys.DAY, 0)
+                daySpinner.setSelection(defaultDay - 1)
             }
             Keys.ACTION_EDIT -> {
                 supportActionBar?.title = getString(R.string.title_edit)
@@ -72,6 +75,10 @@ class EditActivity : AppCompatActivity() {
                 )
             }
         }
+
+        profText.setAdapter(
+                ArrayAdapter(this, R.layout.search_item, DataUtils.loadProfessorsList(this))
+        )
     }
 
     override fun onPause() {

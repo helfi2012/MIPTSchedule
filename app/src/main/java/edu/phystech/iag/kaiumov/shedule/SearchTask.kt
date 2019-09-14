@@ -11,7 +11,7 @@ class SearchTask(private val text: String,
         AsyncTask<Void, Void, ArrayList<String>>() {
 
     companion object {
-        private const val SEARCH_LIMIT = 10
+        private const val SEARCH_LIMIT = 7
     }
 
     override fun doInBackground(vararg p0: Void?): ArrayList<String> {

@@ -35,12 +35,13 @@
 
         <activity
             android:name=".activities.SettingsActivity"
-            android:theme="@style/SettingsTheme"
+            android:theme="@style/AppTheme"
             android:label="@string/title_activity_settings" />
 
         <activity android:name=".activities.StartActivity" />
 
-        <receiver android:name=".widget.ScheduleWidgetProvider">
+        <!-- Listed Widget -->
+        <receiver android:name=".widget.listed.ScheduleWidgetProvider">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
                 <action android:name="android.intent.action.DATE_CHANGED" />
@@ -48,12 +49,36 @@
 
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/appwidget_info" />
+                android:resource="@xml/appwidget_list_info" />
         </receiver>
 
         <service
-            android:name=".widget.WidgetService"
+            android:name=".widget.listed.WidgetService"
             android:permission="android.permission.BIND_REMOTEVIEWS" />
+
+        <!-- Paged Widget -->
+
+        <receiver android:name=".widget.paged.ScheduleWidgetProvider">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="android.intent.action.DATE_CHANGED" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/appwidget_pages_info" />
+        </receiver>
+
+        <service
+            android:name=".widget.paged.WidgetService"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
+
+        <!-- Notifications -->
+
+        <receiver
+            android:name=".notification.Notificator$DeleteNotificationReceiver"
+            android:exported="false" >
+        </receiver>
 
         <receiver
             android:name=".notification.BootReceiver"

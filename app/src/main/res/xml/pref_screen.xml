@@ -2,11 +2,6 @@
 <androidx.preference.PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory app:title="@string/pref_header_appearance">
-        <SwitchPreference
-            app:defaultValue="false"
-            app:key="@string/pref_spaces_key"
-            app:summary="@string/pref_spaces_summary"
-            app:title="@string/pref_spaces_title" />
 
         <ListPreference
             app:key="@string/pref_theme_key"
@@ -16,12 +11,18 @@
             app:entryValues="@array/pref_theme_list_values"
             app:useSimpleSummaryProvider="true"/>
 
+        <SwitchPreference
+            app:key="@string/pref_stars_key"
+            app:defaultValue="true"
+            app:title="@string/pref_stars_title"
+            app:summary="@string/pref_stars_summary" />
+
     </PreferenceCategory>
 
     <PreferenceCategory app:title="@string/pref_header_notifications">
         <SwitchPreference
             app:key="@string/pref_notification_enabled_key"
-            app:defaultValue="true"
+            app:defaultValue="false"
             app:title="@string/pref_lesson_notification_title"
             app:summary="@string/pref_lesson_notification_summary" />
 
@@ -32,6 +33,14 @@
             app:entries="@array/pref_notification_before_list_titles"
             app:entryValues="@array/pref_notification_before_list_values"
             app:defaultValue="5"
+            app:negativeButtonText="@null"
+            app:positiveButtonText="@null"
+            app:useSimpleSummaryProvider="true" />
+
+        <ListPreference
+            app:key="@string/pref_notification_group_key"
+            app:dependency="@string/pref_notification_enabled_key"
+            app:title="@string/pref_group_title"
             app:negativeButtonText="@null"
             app:positiveButtonText="@null"
             app:useSimpleSummaryProvider="true" />

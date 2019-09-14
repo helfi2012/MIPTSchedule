@@ -1,6 +1,5 @@
 package edu.phystech.iag.kaiumov.shedule.model
 
-import com.saber.stickyheader.stickyData.StickyMainData
 import java.io.Serializable
 
 class ScheduleItem(val name: String,
@@ -10,9 +9,7 @@ class ScheduleItem(val name: String,
                    val type: String,
                    val startTime: String,
                    val endTime: String,
-                   val notes: String) : Serializable, StickyMainData {
-
-    var tag: Any? = null
+                   val notes: String) : Serializable {
 
     fun length(): Double = TimeUtils.length(startTime, endTime)
 

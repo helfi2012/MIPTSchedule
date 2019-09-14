@@ -39,16 +39,14 @@
     <string name="spaces_switcher">Пробелы</string>
     <string name="delete_group">Удалить группу</string>
     <string name="day_hint">День недели</string>
-    <string name="tip_add_group_title">Добавить группу</string>
-    <string name="tip_add_subject_title">Добавить пару</string>
+    <string name="tip_add_group_title">Избранные группы</string>
+    <string name="tip_add_subject_title">Добавить занятие</string>
     <string name="tip_edit_title">Нажми, чтобы изменить</string>
-    <string name="tip_add_subject_summary">Вы с легкостью можете добавить новое занятие</string>
-    <string name="tip_add_group_summary">Теперь можно просматривать несколько групп одновременно. Просто нажми, чтобы добавить новую группу для просмотра</string>
-    <string name="tip_edit_summary">Просто нажми, чтобы отредактировать</string>
+    <string name="tip_add_subject_summary">Нажми, чтобы добавить новое занятие</string>
+    <string name="tip_add_group_summary">Теперь можно быстро переключаться между избранными группами</string>
+    <string name="tip_edit_summary">Просто нажми, чтобы отредактировать информацию о занятии</string>
     <string name="title_activity_settings">Настройки</string>
-    <string name="pref_spaces_title">Пробелы</string>
-    <string name="pref_spaces_summary">Временные интервалы между занятиями</string>
-    <string name="pref_reset_title">Сброить изменения</string>
+    <string name="pref_reset_title">Сбросить изменения</string>
     <string name="pref_reset_summary">Удалить все изменения, внесенные в расписание</string>
     <string name="pref_header_notifications">Уведомления</string>
     <string name="pref_title_vibrate">Вибрация</string>
@@ -80,4 +78,17 @@
     </plurals>
 
     <string name="notification_text_place">\u0020в %s</string>
+    <string name="add_group">Добавить</string>
+    <string name="pref_group_title">Номер группы</string>
+
+    <string-array name="pref_theme_list_titles">
+        <item>Светлая</item>
+        <item>Темная</item>
+        <item>По умолчанию</item>
+    </string-array>
+    <string name="notification_time_is_up">Занятие уже началось</string>
+    <string name="pref_stars_title">Ночное небо</string>
+    <string name="pref_stars_summary">Анимированное ночное небо доступно в темной теме</string>
+    <string name="tip_settings_title">Настройки</string>
+    <string name="tip_settings_summary">Открой, чтобы настроить тему и уведомления</string>
 </resources>

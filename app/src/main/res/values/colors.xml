@@ -1,19 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#0096a5</color>
-    <color name="colorPrimaryDark">#006064</color>
-    <color name="colorAccent">#c1185b</color>
-    <color name="colorSecondary">#c1185b</color>
+
+    <color name="colorPrimary">#03a9f4</color>
+    <color name="colorPrimaryDark">#007ac1</color>
+    <color name="colorAccent">#F57F17</color>
+
+    <color name="lecture">#5a7afc</color>
+    <color name="seminar">#03a9f4</color>
+    <color name="practice">#BBBBBB</color>
+
     <color name="colorSurface">#FFFFFF</color>
     <color name="colorOnSurface">#000000</color>
-
-    <color name="tenderBlue">#80cbc4</color>
-    <color name="tenderGreen">#69f0ae</color>
-
-    <color name="free">#008577</color>
-    <color name="lecture">#F06292</color>
-    <color name="seminar">#7986CB</color>
-    <color name="practice">#FFCC80</color>
+    <color name="colorTextPrimary">#585858</color>
 
     <color name="star_color_1">#ffffff</color>
     <color name="star_color_2">#25ADFF</color>

@@ -4,10 +4,12 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.MenuItem
-import android.view.View
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
-import edu.phystech.iag.kaiumov.shedule.*
+import edu.phystech.iag.kaiumov.shedule.DataUtils
+import edu.phystech.iag.kaiumov.shedule.R
+import edu.phystech.iag.kaiumov.shedule.ScheduleApp
+import edu.phystech.iag.kaiumov.shedule.SearchTask
 import edu.phystech.iag.kaiumov.shedule.notification.Alarm
 import kotlinx.android.synthetic.main.activity_start.*
 
@@ -21,7 +23,7 @@ class StartActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         val timetable = (application as ScheduleApp).timetable
-        val adapter = ArrayAdapter<String>(applicationContext, R.layout.search_item)
+        val adapter = ArrayAdapter<String>(baseContext, R.layout.search_item)
         searchList.adapter = adapter
 
         searchView.addTextChangedListener(object : TextWatcher {
@@ -35,14 +37,16 @@ class StartActivity : AppCompatActivity() {
             }
         })
 
+        val notifiedGroup = DataUtils.loadNotificationKey(applicationContext)
         searchList.setOnItemClickListener { _, _, position, _ ->
-            DataUtils.addKey(applicationContext, adapter.getItem(position)!!)
-            Alarm.schedule(this)
+            val itemText = adapter.getItem(position)!!
+            DataUtils.addKey(applicationContext, itemText)
+            DataUtils.modifyMainKey(applicationContext, itemText)
+            if (notifiedGroup == null) {
+                DataUtils.modifyNotificationKey(applicationContext, itemText)
+                Alarm.schedule(this)
+            }
             finish()
-        }
-
-        if (ThemeHelper.isDark(this)) {
-            imageView.visibility = View.INVISIBLE
         }
     }
 

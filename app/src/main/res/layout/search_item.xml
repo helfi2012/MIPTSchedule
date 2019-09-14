@@ -5,9 +5,8 @@
     android:id="@+id/textView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:ellipsize="end"
     android:gravity="center_vertical"
-    android:padding="16sp"
-    android:textSize="14sp"
-    android:theme="@style/AppTheme"
-    android:textColor="@android:color/tertiary_text_dark"
+    android:padding="15sp"
+    android:textColor="@color/colorTextPrimary"
     tools:text="Text" />

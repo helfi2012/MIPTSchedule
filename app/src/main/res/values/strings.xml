@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Schedule</string>
     <!-- MainActivity -->
-
+    <string name="add_group">Add</string>
     <string name="delete_group">Delete group</string>
     <string name="spaces_switcher">Spaces</string>
     <string-array name="week">
@@ -14,12 +14,14 @@
         <item>Sunday</item>
     </string-array>
     <!-- Tips -->
-    <string name="tip_add_group_title">Add group</string>
-    <string name="tip_add_group_summary">Now you can see many groups at once. Just click on "+" button to add new group</string>
+    <string name="tip_add_group_title">Favourite groups</string>
+    <string name="tip_add_group_summary">Now you can switch between favourite groups easily</string>
     <string name="tip_edit_title">Tap to edit</string>
     <string name="tip_edit_summary">You can edit any subject, just click on it!</string>
     <string name="tip_add_subject_title">Add new subject</string>
-    <string name="tip_add_subject_summary">You can easily add new subject</string>
+    <string name="tip_add_subject_summary">Tap to add new subject</string>
+    <string name="tip_settings_title">Settings</string>
+    <string name="tip_settings_summary">Open to set up theme and notifications</string>
     <!-- Start Activity -->
     <string name="edit_text_hint">Enter your group number</string>
     <string name="button_start">Start</string>
@@ -72,7 +74,7 @@
     <string-array name="pref_theme_list_titles">
         <item>Light</item>
         <item>Dark</item>
-        <item>Set by battery saver</item>
+        <item>Default</item>
     </string-array>
 
     <string-array name="pref_theme_list_values">
@@ -81,8 +83,8 @@
         <item>default</item>
     </string-array>
 
-    <string name="pref_spaces_title">Spaces</string>
-    <string name="pref_spaces_summary">Time intervals between subjects</string>
+    <string name="pref_stars_title">Night sky</string>
+    <string name="pref_stars_summary">Animated night sky is available in the Dark theme</string>
 
     <!-- Schedule Preferences -->
     <string name="pref_header_data_sync">Schedule</string>
@@ -110,6 +112,8 @@
         <item>10</item>
     </string-array>
 
+    <string name="pref_group_title">Group for notifications</string>
+
     <string name="pref_title_ringtone">Sound</string>
     <string name="pref_ringtone_silent">Silent</string>
 
@@ -135,5 +139,6 @@
     </plurals>
 
     <string name="notification_text_place">\u0020in %s</string>
+    <string name="notification_time_is_up">The lesson has already begun</string>
 
 </resources>

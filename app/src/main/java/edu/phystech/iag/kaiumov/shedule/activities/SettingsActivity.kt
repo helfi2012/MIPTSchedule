@@ -13,10 +13,11 @@ import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceCategory
 import androidx.preference.PreferenceFragmentCompat
-import edu.phystech.iag.kaiumov.shedule.R
-import edu.phystech.iag.kaiumov.shedule.ScheduleApp
-import edu.phystech.iag.kaiumov.shedule.ThemeHelper
+import edu.phystech.iag.kaiumov.shedule.*
 import edu.phystech.iag.kaiumov.shedule.notification.Alarm
+import androidx.core.app.ActivityCompat
+import android.opengl.ETC1.getHeight
+import android.opengl.ETC1.getWidth
 
 
 class SettingsActivity : AppCompatActivity() {
@@ -28,6 +29,19 @@ class SettingsActivity : AppCompatActivity() {
         if (supportFragmentManager.findFragmentById(android.R.id.content) == null) {
             supportFragmentManager.beginTransaction().add(android.R.id.content, SettingsFragment()).commit()
         }
+    }
+
+    override fun onBackPressed() {
+        startActivity(Intent(this, MainActivity::class.java))
+        finish()
+    }
+
+    override fun recreate() {
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
+        finish()
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
+        startActivity(intent)
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -54,6 +68,18 @@ class SettingsActivity : AppCompatActivity() {
             }
 
             findPreference<ListPreference>(getString(R.string.pref_notification_before_key))?.setOnPreferenceChangeListener { _, _ ->
+                Alarm.schedule(context!!)
+                true
+            }
+
+            val groupList = findPreference<ListPreference>(getString(R.string.pref_notification_group_key))!!
+            val keys = DataUtils.loadKeys(context!!)?.toTypedArray()
+            val notifiedGroup = DataUtils.loadNotificationKey(context!!)
+            groupList.entries = keys
+            groupList.entryValues = keys
+            groupList.value = notifiedGroup
+            groupList.setOnPreferenceChangeListener { _, newValue ->
+                DataUtils.modifyNotificationKey(context!!, newValue as String)
                 Alarm.schedule(context!!)
                 true
             }

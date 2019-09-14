@@ -2,10 +2,10 @@ package edu.phystech.iag.kaiumov.shedule
 
 import android.app.Application
 import android.os.AsyncTask
+import androidx.preference.PreferenceManager
 import edu.phystech.iag.kaiumov.shedule.model.Schedule
 import edu.phystech.iag.kaiumov.shedule.model.ScheduleItem
 import edu.phystech.iag.kaiumov.shedule.notification.Alarm
-import androidx.preference.PreferenceManager
 import edu.phystech.iag.kaiumov.shedule.notification.Notificator
 
 
@@ -26,6 +26,7 @@ class ScheduleApp : Application() {
             DataUtils.saveSchedule(applicationContext, schedule)
         }
         Notificator.buildNotificationChannel(this)
+        Alarm.schedule(this)
 
         val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
         val themePref = sharedPreferences.getString(getString(R.string.pref_theme_key), ThemeHelper.DEFAULT_MODE)

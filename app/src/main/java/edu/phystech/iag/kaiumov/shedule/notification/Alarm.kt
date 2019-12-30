@@ -78,13 +78,7 @@ object Alarm {
                 time.add(Calendar.DAY_OF_YEAR, 7)
             }
             time.add(Calendar.MINUTE, -minutesBefore)
-            time.add(Calendar.MINUTE, -1)
 
-//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-//                alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, time.timeInMillis, pendingIntent)
-//            } else {
-//                alarmManager.setExact(AlarmManager.RTC_WAKEUP, time.timeInMillis, pendingIntent)
-//            }
             alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, time.timeInMillis, INTERVAL_WEEK, pendingIntent)
         }
     }

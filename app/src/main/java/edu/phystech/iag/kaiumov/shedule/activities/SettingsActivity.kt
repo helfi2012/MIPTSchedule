@@ -9,15 +9,16 @@ import android.provider.Settings
 import android.view.MenuItem
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ShareCompat
 import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceCategory
 import androidx.preference.PreferenceFragmentCompat
-import edu.phystech.iag.kaiumov.shedule.*
+import edu.phystech.iag.kaiumov.shedule.DataUtils
+import edu.phystech.iag.kaiumov.shedule.R
+import edu.phystech.iag.kaiumov.shedule.ScheduleApp
+import edu.phystech.iag.kaiumov.shedule.ThemeHelper
 import edu.phystech.iag.kaiumov.shedule.notification.Alarm
-import androidx.core.app.ActivityCompat
-import android.opengl.ETC1.getHeight
-import android.opengl.ETC1.getWidth
 
 
 class SettingsActivity : AppCompatActivity() {
@@ -34,12 +35,11 @@ class SettingsActivity : AppCompatActivity() {
     override fun onBackPressed() {
         startActivity(Intent(this, MainActivity::class.java))
         finish()
+        overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
     }
 
     override fun recreate() {
-        overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
         finish()
-        overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
         startActivity(intent)
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
     }
@@ -61,6 +61,11 @@ class SettingsActivity : AppCompatActivity() {
                 true
             }
 
+            findPreference<Preference>(getString(R.string.pref_share_key))?.setOnPreferenceClickListener {
+                share()
+                true
+            }
+
             val themePreference = findPreference<ListPreference>(getString(R.string.pref_theme_key))
             themePreference?.setOnPreferenceChangeListener { _, newValue ->
                 ThemeHelper.applyTheme(newValue as String)
@@ -68,19 +73,19 @@ class SettingsActivity : AppCompatActivity() {
             }
 
             findPreference<ListPreference>(getString(R.string.pref_notification_before_key))?.setOnPreferenceChangeListener { _, _ ->
-                Alarm.schedule(context!!)
+                Alarm.schedule(requireContext())
                 true
             }
 
             val groupList = findPreference<ListPreference>(getString(R.string.pref_notification_group_key))!!
-            val keys = DataUtils.loadKeys(context!!)?.toTypedArray()
-            val notifiedGroup = DataUtils.loadNotificationKey(context!!)
+            val keys = DataUtils.loadKeys(requireContext())?.toTypedArray()
+            val notifiedGroup = DataUtils.loadNotificationKey(requireContext())
             groupList.entries = keys
             groupList.entryValues = keys
             groupList.value = notifiedGroup
             groupList.setOnPreferenceChangeListener { _, newValue ->
-                DataUtils.modifyNotificationKey(context!!, newValue as String)
-                Alarm.schedule(context!!)
+                DataUtils.modifyNotificationKey(requireContext(), newValue as String)
+                Alarm.schedule(requireContext())
                 true
             }
 
@@ -121,7 +126,7 @@ class SettingsActivity : AppCompatActivity() {
          */
         private fun showConfirmDialog() {
             val app = activity?.application as ScheduleApp
-            val alertDialog = AlertDialog.Builder(activity!!)
+            val alertDialog = AlertDialog.Builder(requireActivity())
             alertDialog.setTitle(getString(R.string.dialog_title))
             alertDialog.setMessage(getString(R.string.reset_message))
             alertDialog.setPositiveButton(getString(R.string.button_yes)) { dialogInterface: DialogInterface, _: Int ->
@@ -133,6 +138,17 @@ class SettingsActivity : AppCompatActivity() {
             }
             alertDialog.setCancelable(true)
             alertDialog.create().show()
+        }
+
+        /**
+         * Open share options menu
+         */
+        private fun share() {
+            ShareCompat.IntentBuilder.from(requireActivity())
+                    .setType("text/plain")
+                    .setChooserTitle(getString(R.string.pref_share_message))
+                    .setText("${getString(R.string.pref_share_message)} \n ${getString(R.string.pref_rate_app_url)}")
+                    .startChooser()
         }
     }
 }

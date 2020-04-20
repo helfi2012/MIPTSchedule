@@ -12,12 +12,15 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import edu.phystech.iag.kaiumov.shedule.R
 import edu.phystech.iag.kaiumov.shedule.activities.MainActivity
 import edu.phystech.iag.kaiumov.shedule.model.ScheduleItem
+import edu.phystech.iag.kaiumov.shedule.model.TimeUtils
 import kotlinx.android.synthetic.main.fragment_day.*
 import java.util.*
 
 
 class DayFragment : Fragment() {
 
+    private val timeInterval = 30 * 1000L
+    private val timer = Timer()
     private var empty = false
     private var day: Int = 0
 
@@ -41,8 +44,21 @@ class DayFragment : Fragment() {
         val timetable = arguments?.getSerializable(ARG_TIMETABLE)
         if (day == null || timetable == null || empty)
             return
+
+        val preferences = PreferenceManager.getDefaultSharedPreferences(context)
+        val showSpaces = preferences.getBoolean(getString(R.string.pref_show_spaces), false)
         recycler.layoutManager = LinearLayoutManager(context)
-        recycler.adapter = ClassesAdapter(day, timetable as List<ScheduleItem>)
+        recycler.adapter = ClassesAdapter(day, showSpaces, timetable as List<ScheduleItem>)
+
+        if (day == TimeUtils.getCurrentDay()) {
+            timer.schedule(object : TimerTask() {
+                override fun run() {
+                    activity?.runOnUiThread {
+                        recycler.adapter?.notifyDataSetChanged()
+                    }
+                }
+            }, 0L, timeInterval)
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -68,6 +84,7 @@ class DayFragment : Fragment() {
         if (!empty) {
             view?.findViewById<ImageView>(R.id.imageView)?.setImageBitmap(null)
         }
+        timer.cancel()
         super.onDestroy()
     }
 

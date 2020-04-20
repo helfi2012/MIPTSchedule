@@ -12,6 +12,12 @@
             app:useSimpleSummaryProvider="true"/>
 
         <SwitchPreference
+            app:key="@string/pref_show_spaces"
+            app:defaultValue="false"
+            app:title="@string/pref_spaces_title"
+            app:summary="@string/pref_spaces_summary" />
+
+        <SwitchPreference
             app:key="@string/pref_stars_key"
             app:defaultValue="true"
             app:title="@string/pref_stars_title"
@@ -60,6 +66,11 @@
     </PreferenceCategory>
 
     <PreferenceCategory app:title="@string/pref_header_communication">
+        <Preference
+            app:key="@string/pref_share_key"
+            app:title="@string/pref_share_app_title">
+        </Preference>
+
         <Preference
             app:title="@string/pref_write_developer_title">
             <intent

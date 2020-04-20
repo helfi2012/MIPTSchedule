@@ -1,24 +1,20 @@
 package edu.phystech.iag.kaiumov.shedule.model
 
+import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.math.abs
 
 object TimeUtils {
     /**
      * @return positive if t1 > t2, negative if t1 < t2, zero if t1 == t2
      */
     fun compareTime(t1: String, t2: String): Int {
-        val s1 = t1.split(":").map { it.toInt() }
-        val s2 = t2.split(":").map { it.toInt() }
-        return (s1[0] - s2[0]) * 60 + s1[1] - s2[1]
+        val parser =  SimpleDateFormat("HH:mm", Locale.ENGLISH)
+        return (parser.parse(t1)!!.time - parser.parse(t2)!!.time).toInt()
     }
 
     fun length(t1: String, t2: String): Double {
-        val s1 = t1.split(":").map { it.toInt() }
-        val s2 = t2.split(":").map { it.toInt() }
-        if (s1.size < 2 || s2.size < 2)
-            return 1.0
-        return abs((s2[0] - s1[0]) * 60 + s2[1] - s1[1]) / 60.0
+        val parser =  SimpleDateFormat("HH:mm", Locale.ENGLISH)
+        return (parser.parse(t2)!!.time - parser.parse(t1)!!.time) / 1000 / 3600.0
     }
 
     fun getCalendarTime(day: Int, t: String): Calendar {

@@ -4,9 +4,13 @@
     android:id="@+id/textView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:drawablePadding="8dp"
+    android:drawableEnd="@drawable/ic_arrow_drop_down_24px"
     android:ellipsize="end"
+    android:fontFamily="@font/futura_demi"
     android:gravity="center_vertical"
     android:padding="16dp"
     android:textColor="@android:color/white"
     android:textSize="18sp"
-    tools:text="Text" />
+    tools:background="@color/colorPrimary"
+    tools:text="Б02-824" />

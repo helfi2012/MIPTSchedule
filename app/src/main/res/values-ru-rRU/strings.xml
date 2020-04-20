@@ -14,10 +14,22 @@
         <item>Суббота</item>
         <item>Воскресенье</item>
     </string-array>
+    <string-array name="week_short">
+        <item>ПН</item>
+        <item>ВТ</item>
+        <item>СР</item>
+        <item>ЧТ</item>
+        <item>ПТ</item>
+        <item>СБ</item>
+        <item>ВС</item>
+    </string-array>
+
     <string-array name="lesson_types_text">
         <item>Семинар</item>
         <item>Лекция</item>
         <item>Лаборатория</item>
+        <item>Отдых</item>
+        <item>Время бота</item>
     </string-array>
     <string name="name_hint">Предмет</string>
     <string name="place_hint">Аудитория</string>
@@ -91,4 +103,18 @@
     <string name="pref_stars_summary">Анимированное ночное небо доступно в темной теме</string>
     <string name="tip_settings_title">Настройки</string>
     <string name="tip_settings_summary">Открой, чтобы настроить тему и уведомления</string>
+    <string name="create_dialog_error">Введите название!</string>
+    <string name="create_dialog_hint">Введите название группы</string>
+    <string name="create_dialog_negative">Отмена</string>
+    <string name="create_dialog_positive">Создать</string>
+    <string name="create_dialog_title">Создать новую группу</string>
+    <string name="pref_spaces_summary">Показывать перерывы между парами</string>
+    <string name="pref_spaces_title">Перерывы</string>
+
+    <string name="break_extra_short">Перерыв всего %d минут :(</string>
+    <string name="break_short">Перерыв %d минут - чашечку кофе? </string>
+    <string name="break_medium">Перерыв %d минут - время поесть</string>
+    <string name="break_long">Перерыв %d минут. Наконец-то можно поспать!</string>
+    <string name="pref_share_app_title">Рассказать друзьям</string>
+    <string name="pref_share_message">Попробуй Физтех-Расписание!</string>
 </resources>

@@ -7,6 +7,8 @@
         <item>SEM</item>
         <item>LEC</item>
         <item>LAB</item>
+        <item>RST</item>
+        <item>BOT</item>
     </string-array>
 
     <string name="pref_main_group_key" translatable="false">group_main_number</string>
@@ -22,6 +24,8 @@
 
     <string name="pref_reset_key" translatable="false">pref_reset</string>
 
+    <string name="pref_show_spaces" translatable="false">pref_spaces</string>
+
     <string name="pref_notification_enabled_key" translatable="false">pref_notification_enabled</string>
     <string name="pref_notification_before_key" translatable="false">pref_notification_before</string>
     <string name="pref_notification_ringtone_key" translatable="false">pref_notification_ringtone</string>
@@ -30,5 +34,7 @@
     <string name="pref_notification_group_key" translatable="false">notification_group_number</string>
 
     <string name="pref_notification_size_key" translatable="false">pref_notification_size</string>
+
+    <string name="pref_share_key" translatable="false">pref_share_key</string>
 
 </resources>

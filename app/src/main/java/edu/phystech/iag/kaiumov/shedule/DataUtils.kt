@@ -2,16 +2,14 @@ package edu.phystech.iag.kaiumov.shedule
 
 import android.app.Activity
 import android.content.Context
-import androidx.preference.PreferenceManager
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import androidx.preference.PreferenceManager
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import edu.phystech.iag.kaiumov.shedule.model.Schedule
 import org.apache.commons.io.IOUtils
-import java.io.BufferedReader
 import java.io.FileNotFoundException
-import java.io.InputStreamReader
 
 
 object DataUtils {
@@ -93,15 +91,15 @@ object DataUtils {
     }
 
     internal fun loadSchedule(context: Context): Schedule {
-        try {
-            return Gson().fromJson(
+        return try {
+            Gson().fromJson(
                     IOUtils.toString(context.openFileInput(SCHEDULE_PATH), ENCODING),
                     object : TypeToken<Schedule>() {}.type
             )
         } catch (e: FileNotFoundException) {
             val schedule = loadScheduleFromAssets(context)
             saveSchedule(context, schedule)
-            return schedule
+            schedule
         }
     }
 

@@ -40,6 +40,8 @@
 
         <activity android:name=".activities.StartActivity" />
 
+        <activity android:name=".activities.EditActivity"/>
+
         <!-- Listed Widget -->
         <receiver android:name=".widget.listed.ScheduleWidgetProvider">
             <intent-filter>
@@ -97,8 +99,6 @@
             android:name=".notification.MyService"
             android:enabled="true"
             android:exported="true" />
-
-        <activity android:name=".activities.EditActivity" />
     </application>
 
 </manifest>

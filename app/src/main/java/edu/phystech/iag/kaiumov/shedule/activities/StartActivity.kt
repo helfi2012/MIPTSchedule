@@ -1,11 +1,15 @@
 package edu.phystech.iag.kaiumov.shedule.activities
 
+import android.content.DialogInterface
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.MenuItem
 import android.widget.ArrayAdapter
+import android.widget.EditText
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.textfield.TextInputLayout
 import edu.phystech.iag.kaiumov.shedule.DataUtils
 import edu.phystech.iag.kaiumov.shedule.R
 import edu.phystech.iag.kaiumov.shedule.ScheduleApp
@@ -47,6 +51,49 @@ class StartActivity : AppCompatActivity() {
                 Alarm.schedule(this)
             }
             finish()
+        }
+
+        // Creating new group
+        createButton.setOnClickListener {
+            val alertDialog = AlertDialog.Builder(this)
+            val view = layoutInflater.inflate(R.layout.dialog_create, null)
+            val editText = view.findViewById<EditText>(R.id.editText)
+            val textInputLayout = editText.parent.parent as TextInputLayout
+            var isError = false
+            alertDialog.setView(view)
+                        .setTitle(getString(R.string.create_dialog_title))
+                        .setPositiveButton(getString(R.string.create_dialog_positive)) { _: DialogInterface, _: Int -> }
+                        .setNegativeButton(getString(R.string.create_dialog_negative)) { _: DialogInterface, _: Int -> }
+                        .setCancelable(true)
+            val dialog = alertDialog.create()
+            dialog.show()
+            editText.addTextChangedListener(
+                    object : TextWatcher {
+                        override fun afterTextChanged(text: Editable?) {
+                            if (editText.text.isNotEmpty() && isError)
+                                textInputLayout.error = null
+                        }
+                        override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) = Unit
+                        override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) = Unit
+                    }
+            )
+            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
+                val text = editText.text.toString()
+                if (text.isEmpty()) {
+                    isError = true
+                    textInputLayout.error = getString(R.string.create_dialog_error)
+                } else {
+                    DataUtils.addKey(applicationContext, text)
+                    DataUtils.modifyMainKey(applicationContext, text)
+                    if (notifiedGroup == null) {
+                        DataUtils.modifyNotificationKey(applicationContext, text)
+                        Alarm.schedule(this)
+                    }
+                    (application as ScheduleApp).createNewGroup(text)
+                    dialog.dismiss()
+                    finish()
+                }
+            }
         }
     }
 

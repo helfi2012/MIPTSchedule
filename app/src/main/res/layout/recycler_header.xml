@@ -13,11 +13,11 @@
 
     <TextView
         android:id="@+id/headerText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_gravity="center_vertical"
         android:ellipsize="end"
-        android:fontFamily="sans-serif-medium"
+        android:fontFamily="@font/futura_book"
         android:textColor="@android:color/white"
         android:textSize="20sp"
         tools:text="Monday" />

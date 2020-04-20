@@ -18,6 +18,6 @@ class DaysPagerAdapter(private val timetable: ArrayList<ScheduleItem>, private v
     override fun getCount(): Int = 7
 
     override fun getPageTitle(position: Int): CharSequence {
-        return context.resources.getStringArray(R.array.week)[position].toString()
+        return context.resources.getStringArray(R.array.week_short)[position].toString()
     }
 }

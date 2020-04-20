@@ -13,6 +13,15 @@
         <item>Saturday</item>
         <item>Sunday</item>
     </string-array>
+    <string-array name="week_short">
+        <item>MON</item>
+        <item>TUE</item>
+        <item>WED</item>
+        <item>THU</item>
+        <item>FRI</item>
+        <item>SAT</item>
+        <item>SUN</item>
+    </string-array>
     <!-- Tips -->
     <string name="tip_add_group_title">Favourite groups</string>
     <string name="tip_add_group_summary">Now you can switch between favourite groups easily</string>
@@ -26,6 +35,12 @@
     <string name="edit_text_hint">Enter your group number</string>
     <string name="button_start">Start</string>
     <string name="search_hint">Search for a group</string>
+
+    <string name="create_dialog_title">Create new group</string>
+    <string name="create_dialog_positive">Create</string>
+    <string name="create_dialog_negative">Cancel</string>
+    <string name="create_dialog_hint">Enter group name</string>
+    <string name="create_dialog_error">Group name must be not empty</string>
     <!-- EditActivity -->
     <string name="title_new">New lesson</string>
     <string name="title_edit">Edit lesson</string>
@@ -47,6 +62,8 @@
         <item>Seminar</item>
         <item>Lecture</item>
         <item>Laboratory</item>
+        <item>Rest</item>
+        <item>Botay</item>
     </string-array>
     <!-- Confirm dialog -->
     <string name="dialog_title">Confirmation</string>
@@ -86,6 +103,9 @@
     <string name="pref_stars_title">Night sky</string>
     <string name="pref_stars_summary">Animated night sky is available in the Dark theme</string>
 
+    <string name="pref_spaces_title">Spaces</string>
+    <string name="pref_spaces_summary">Show spaces between lessons</string>
+
     <!-- Schedule Preferences -->
     <string name="pref_header_data_sync">Schedule</string>
 
@@ -124,6 +144,8 @@
     <!-- Communication Preferences -->
 
     <string name="pref_header_communication">Communication</string>
+    <string name="pref_share_app_title">Share this app</string>
+    <string name="pref_share_message">Try MIPT schedule app</string>
     <string name="pref_write_developer_title">Write to developer</string>
     <string name="pref_write_developer_url" translatable="false">https://vk.com/yasha_kayumov</string>
 
@@ -140,5 +162,11 @@
 
     <string name="notification_text_place">\u0020in %s</string>
     <string name="notification_time_is_up">The lesson has already begun</string>
+    
+    <!-- Schedule item -->
+    <string name="break_extra_short">Break is just %d minutes :(</string>
+    <string name="break_short">%d minute break - a cup of tea?</string>
+    <string name="break_medium">%d minutes are enough to eat</string>
+    <string name="break_long">%d-minute break. Finally, some good sleep!</string>
 
 </resources>

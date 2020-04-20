@@ -62,7 +62,8 @@
                                             <option name="values">
                                               <map>
                                                 <entry key="color" value="000000" />
-                                                <entry key="scalingPercent" value="60" />
+                                                <entry key="scalingPercent" value="72" />
+                                                <entry key="trimmed" value="true" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -95,9 +96,9 @@
                                   <option name="values">
                                     <map>
                                       <entry key="backgroundAssetType" value="COLOR" />
-                                      <entry key="backgroundColor" value="ffffff" />
+                                      <entry key="backgroundColor" value="069adb" />
                                       <entry key="backgroundImage" value="$USER_HOME$/C:\Users\Яша\Downloads\IMG_2825.PNG" />
-                                      <entry key="foregroundImage" value="$PROJECT_DIR$/app/src/main/res/drawable/source.png" />
+                                      <entry key="foregroundImage" value="$PROJECT_DIR$/app/src/main/res/drawable/app_icon.svg" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -166,8 +167,8 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
-                            <entry key="outputName" value="ic_add" />
-                            <entry key="sourceFile" value="C:\Users\Яша\Downloads\baseline-add-24px.svg" />
+                            <entry key="outputName" value="ic_run_24px" />
+                            <entry key="sourceFile" value="$USER_HOME$/Downloads/directions_run-24px.svg" />
                           </map>
                         </option>
                       </PersistentState>

@@ -1,27 +1,32 @@
 package edu.phystech.iag.kaiumov.shedule.activities
 
 import android.app.TimePickerDialog
+import android.content.Context
 import android.content.DialogInterface
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.content.ContextCompat
 import com.google.android.material.textfield.TextInputLayout
-import edu.phystech.iag.kaiumov.shedule.DataUtils
-import edu.phystech.iag.kaiumov.shedule.Keys
-import edu.phystech.iag.kaiumov.shedule.R
-import edu.phystech.iag.kaiumov.shedule.ScheduleApp
+import edu.phystech.iag.kaiumov.shedule.*
 import edu.phystech.iag.kaiumov.shedule.model.ScheduleItem
 import edu.phystech.iag.kaiumov.shedule.model.TimeUtils
 import kotlinx.android.synthetic.main.activity_edit.*
+import kotlinx.android.synthetic.main.lesson_spinner_dropdown_item.view.*
+import kotlinx.android.synthetic.main.lesson_spinner_dropdown_item.view.textView
+import kotlinx.android.synthetic.main.lesson_spinner_item.view.*
 
 
 class EditActivity : AppCompatActivity() {
@@ -36,22 +41,6 @@ class EditActivity : AppCompatActivity() {
 
         // Set action bar according to type of activity (edit or create)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
-        key = DataUtils.loadMainKey(applicationContext)
-        // Two variants: 1) Add new lesson; 2) Edit existed one
-        action = intent.action
-        when (intent.action) {
-            Keys.ACTION_NEW -> {
-                supportActionBar?.title = getString(R.string.title_new)
-                val defaultDay = intent.getIntExtra(Keys.DAY, 0)
-                daySpinner.setSelection(defaultDay - 1)
-            }
-            Keys.ACTION_EDIT -> {
-                supportActionBar?.title = getString(R.string.title_edit)
-                item = intent.getSerializableExtra(Keys.ITEM) as ScheduleItem
-                loadData()
-            }
-        }
 
         startTimeText.onFocusChangeListener = onFocusChangeListener
         endTimeText.onFocusChangeListener = onFocusChangeListener
@@ -76,9 +65,33 @@ class EditActivity : AppCompatActivity() {
             }
         }
 
+        // Search adapter
         profText.setAdapter(
                 ArrayAdapter(this, R.layout.search_item, DataUtils.loadProfessorsList(this))
         )
+
+        // Lesson spinner
+        val lessonAdapter = LessonAdapter(applicationContext)
+        lessonAdapter.setDropDownViewResource(R.layout.lesson_spinner_dropdown_item)
+        lessonAdapter.addAll(resources.getStringArray(R.array.lesson_types_text).toList())
+        lessonSpinner.adapter = lessonAdapter
+
+        // Load data
+        key = DataUtils.loadMainKey(applicationContext)
+        // Two variants: 1) Add new lesson; 2) Edit existed one
+        action = intent.action
+        when (intent.action) {
+            Keys.ACTION_NEW -> {
+                supportActionBar?.title = getString(R.string.title_new)
+                val defaultDay = intent.getIntExtra(Keys.DAY, 0)
+                daySpinner.setSelection(defaultDay - 1)
+            }
+            Keys.ACTION_EDIT -> {
+                supportActionBar?.title = getString(R.string.title_edit)
+                item = intent.getSerializableExtra(Keys.ITEM) as ScheduleItem
+                loadData()
+            }
+        }
     }
 
     override fun onPause() {
@@ -263,5 +276,35 @@ class EditActivity : AppCompatActivity() {
         lessons.remove(item!!)
         timetable[key!!] = lessons
         app.updateTimeTable(timetable)
+    }
+
+    private class LessonAdapter(context: Context) : ArrayAdapter<String>(context, R.layout.lesson_spinner_item) {
+        private val keys = context.resources.getStringArray(R.array.lesson_types)
+
+        private fun getDrawable(position: Int): Drawable? {
+            val drawable = AppCompatResources.getDrawable(context, R.drawable.ic_rounded_square) ?:  return null
+            val colorId = if (ThemeHelper.isDark(context))
+                ColorUtil.getTextColor(keys[position])
+            else
+                ColorUtil.getBackgroundColor(keys[position])
+            drawable.setTint(ContextCompat.getColor(context, colorId))
+            return drawable
+        }
+
+        override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+            val v = super.getView(position, convertView, parent)
+            v.textView.text = getItem(position)
+            v.textView.setCompoundDrawablesWithIntrinsicBounds(getDrawable(position), null, null, null)
+            return v
+        }
+
+        override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
+            val v = super.getDropDownView(position, convertView, parent)
+            // Set text
+            v.textView.text = getItem(position)
+            // Set up drawable
+            v.textView.setCompoundDrawablesRelativeWithIntrinsicBounds(getDrawable(position), null, null, null)
+            return v
+        }
     }
 }

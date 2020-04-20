@@ -1,15 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#4D4D4D</color>
-    <color name="colorPrimaryDark">#4D4D4D</color>
+
+    <color name="colorPrimary">#212121</color>
+    <color name="colorPrimaryDark">#212121</color>
     <color name="colorAccent">#F9A825</color>
-    <color name="colorSurface">#2b2727</color>
+    <color name="colorSurface">#121212</color>
     <color name="colorOnSurface">#FFFFFF</color>
-
     <color name="colorTextPrimary">#C0C0C0</color>
+    <color name="colorFloatingButton">#F9A825</color>
+    <color name="colorItemRipple">#212121</color>
 
-    <color name="lecture">#5a7afc</color>
-    <color name="seminar">#03a9f4</color>
-    <color name="practice">#9C9C9C</color>
+    <color name="color_lecture_bg">#212121</color>
+    <color name="color_seminar_bg">#212121</color>
+    <color name="color_practice_bg">#212121</color>
+    <color name="color_rest_bg">#212121</color>
+    <color name="color_botay_bg">#212121</color>
 
+    <color name="color_lecture_text">#80D8FF</color>
+    <color name="color_seminar_text">#69F0AE</color>
+    <color name="color_practice_text">#FFE57F</color>
+    <color name="color_rest_text">#B388FF</color>
+    <color name="color_botay_text">#FF80AB</color>
+
+    <color name="textBig">#DEDEDE</color>
+    <color name="textSmall">#C2C2C2</color>
+    <color name="color_spinner_bg">#353535</color>
 </resources>

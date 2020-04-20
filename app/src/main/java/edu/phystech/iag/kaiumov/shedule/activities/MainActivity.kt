@@ -1,12 +1,15 @@
 package edu.phystech.iag.kaiumov.shedule.activities
 
+
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.interpolator.view.animation.LinearOutSlowInInterpolator
 import androidx.preference.PreferenceManager
@@ -40,9 +43,6 @@ class MainActivity : AppCompatActivity() {
             intent.action = Keys.ACTION_NEW
             intent.putExtra(Keys.DAY, pager.currentItem + 1)
             startActivity(intent)
-//            val item = ScheduleItem("Мат. Анализ", "Иванов Г.Е", "239 НК", 0,
-//                    "LEC", "12:15", "14:00", "")
-//            Notificator.showNotification(this, item)
         }
     }
 
@@ -129,7 +129,7 @@ class MainActivity : AppCompatActivity() {
                         .setTarget(groupSpinner)
                         .setPrimaryText(getString(R.string.tip_add_group_title))
                         .setSecondaryText(getString(R.string.tip_add_group_summary))
-                        .setIcon(R.drawable.ic_add)
+                        .setIcon(R.drawable.ic_add_inverted_24px)
                         .setFocalPadding(R.dimen.focal_padding)
                         .setCaptureTouchEventOutsidePrompt(true)
                         .setCaptureTouchEventOnFocal(true)
@@ -179,8 +179,23 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setUpSpinner(keys: List<String>, selection: Int) {
-        val adapter = ArrayAdapter<String>(this, R.layout.spinner_item)
-        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
+        val adapter = object : ArrayAdapter<String>(this, R.layout.group_spinner_item) {
+            override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
+                val v =  super.getDropDownView(position, convertView, parent)
+                val tv = v.findViewById<TextView>(R.id.textView)
+                tv.text = getItem(position)
+                if (position == groupSpinner.selectedItemPosition) {
+                    tv.setCompoundDrawablesWithIntrinsicBounds(0, 0,
+                            R.drawable.ic_done_24px, 0)
+                }
+                if (position == count - 1) {
+                    tv.setCompoundDrawablesWithIntrinsicBounds(0, 0,
+                            R.drawable.ic_add_24px, 0)
+                }
+                return v
+            }
+        }
+        adapter.setDropDownViewResource(R.layout.group_spinner_dropdown_item)
         adapter.addAll(keys)
         adapter.add(getString(R.string.add_group))
         groupSpinner.adapter = adapter

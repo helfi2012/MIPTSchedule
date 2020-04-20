@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.widget.RemoteViews
 import android.widget.RemoteViewsService.RemoteViewsFactory
+import edu.phystech.iag.kaiumov.shedule.ColorUtil
 import edu.phystech.iag.kaiumov.shedule.R
 import edu.phystech.iag.kaiumov.shedule.model.ScheduleItem
 import edu.phystech.iag.kaiumov.shedule.model.TimeUtils
@@ -18,7 +19,7 @@ class WidgetAdapter(private val context: Context, classes: List<ScheduleItem>) :
 
     init {
         val day = TimeUtils.getCurrentDay()
-        for (i in 0 until classes.size) {
+        for (i in classes.indices) {
             if (classes[i].day < day)
                 continue
             if (isFirstLesson(classes, i)) {
@@ -28,7 +29,7 @@ class WidgetAdapter(private val context: Context, classes: List<ScheduleItem>) :
         }
         // if there's no any lessons on this week - show next week
         if (data.isEmpty()) {
-            for (i in 0 until classes.size) {
+            for (i in classes.indices) {
                 if (isFirstLesson(classes, i)) {
                     data.add(ListItem(day = classes[i].day))
                 }
@@ -62,14 +63,13 @@ class WidgetAdapter(private val context: Context, classes: List<ScheduleItem>) :
                     context.resources.getStringArray(R.array.week)[listItem.day - 1].toString())
             return remoteViews
         }
-        val remoteViews = RemoteViews(context.packageName, R.layout.schedule_item)
+        val remoteViews = RemoteViews(context.packageName, R.layout.widget_item)
         val item = listItem.scheduleItem!!
         remoteViews.setTextViewText(R.id.name, item.name)
-        remoteViews.setTextViewText(R.id.prof, item.prof)
         remoteViews.setTextViewText(R.id.place, item.place)
         remoteViews.setTextViewText(R.id.startTime, item.startTime)
         remoteViews.setTextViewText(R.id.endTime, item.endTime)
-        remoteViews.setInt(R.id.time_layout, "setBackgroundResource", lessonDrawable(item.type))
+        remoteViews.setInt(R.id.time_layout, "setBackgroundResource", ColorUtil.getBackgroundDrawable(item.type))
         val clickIntent = Intent()
         remoteViews.setOnClickFillInIntent(R.id.scheduleMainLayout, clickIntent)
         return remoteViews
@@ -83,13 +83,4 @@ class WidgetAdapter(private val context: Context, classes: List<ScheduleItem>) :
 
     override fun onDestroy() = Unit
 
-    companion object {
-        internal fun lessonDrawable(type: String): Int {
-            return when (type) {
-                "LAB" -> R.drawable.bg_item_lab
-                "SEM" -> R.drawable.bg_item_sem
-                else -> R.drawable.bg_item_lec
-            }
-        }
-    }
 }

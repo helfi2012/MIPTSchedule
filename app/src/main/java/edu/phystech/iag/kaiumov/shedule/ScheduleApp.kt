@@ -48,4 +48,9 @@ class ScheduleApp : Application() {
             Alarm.schedule(applicationContext, schedule)
         }
     }
+
+    fun createNewGroup(name: String) {
+        schedule.timetable[name] = ArrayList()
+        updateTimeTable(timetable)
+    }
 }

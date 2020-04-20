@@ -2,6 +2,7 @@
 <resources>
     <dimen name="schedule_item_height">90dp</dimen>
     <dimen name="schedule_time_width">52dp</dimen>
+    <dimen name="widget_item_height">60dp</dimen>
     <dimen name="corner_radius">8dp</dimen>
     <dimen name="widget_corner_radius">10dp</dimen>
     <dimen name="edit_layout_margin">8dp</dimen>

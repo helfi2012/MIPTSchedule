@@ -92,7 +92,8 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintVertical_bias="0.0"
-                        tools:visibility="visible" />
+                        tools:visibility="visible"
+                        android:contentDescription="@string/app_name" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <TextView

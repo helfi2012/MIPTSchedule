@@ -16,7 +16,7 @@ import androidx.preference.PreferenceManager
 import edu.phystech.iag.kaiumov.shedule.R
 import edu.phystech.iag.kaiumov.shedule.activities.MainActivity
 import edu.phystech.iag.kaiumov.shedule.model.ScheduleItem
-import edu.phystech.iag.kaiumov.shedule.model.TimeUtils
+import edu.phystech.iag.kaiumov.shedule.utils.TimeUtils
 import java.util.*
 import kotlin.math.roundToInt
 import android.content.BroadcastReceiver

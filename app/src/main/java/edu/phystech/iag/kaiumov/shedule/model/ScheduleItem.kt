@@ -1,5 +1,6 @@
 package edu.phystech.iag.kaiumov.shedule.model
 
+import edu.phystech.iag.kaiumov.shedule.utils.TimeUtils
 import java.io.Serializable
 
 class ScheduleItem(val name: String,

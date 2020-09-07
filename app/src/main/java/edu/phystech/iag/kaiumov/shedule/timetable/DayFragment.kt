@@ -2,6 +2,7 @@ package edu.phystech.iag.kaiumov.shedule.timetable
 
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,8 +13,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import edu.phystech.iag.kaiumov.shedule.R
 import edu.phystech.iag.kaiumov.shedule.activities.MainActivity
 import edu.phystech.iag.kaiumov.shedule.model.ScheduleItem
-import edu.phystech.iag.kaiumov.shedule.model.TimeUtils
+import edu.phystech.iag.kaiumov.shedule.utils.TimeUtils
 import kotlinx.android.synthetic.main.fragment_day.*
+import java.lang.Exception
 import java.util.*
 
 
@@ -53,9 +55,11 @@ class DayFragment : Fragment() {
         if (day == TimeUtils.getCurrentDay()) {
             timer.schedule(object : TimerTask() {
                 override fun run() {
-                    activity?.runOnUiThread {
-                        recycler.adapter?.notifyDataSetChanged()
-                    }
+                    try {
+                        activity?.runOnUiThread {
+                            recycler.adapter?.notifyDataSetChanged()
+                        }
+                    } catch (e: Exception) {}
                 }
             }, 0L, timeInterval)
         }

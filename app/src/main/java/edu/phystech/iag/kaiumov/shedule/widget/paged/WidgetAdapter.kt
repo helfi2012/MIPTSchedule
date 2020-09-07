@@ -5,7 +5,7 @@ import android.content.Intent
 import android.widget.RemoteViews
 import android.widget.RemoteViewsService.RemoteViewsFactory
 import androidx.core.content.ContextCompat
-import edu.phystech.iag.kaiumov.shedule.ColorUtil
+import edu.phystech.iag.kaiumov.shedule.utils.ColorUtil
 import edu.phystech.iag.kaiumov.shedule.R
 import edu.phystech.iag.kaiumov.shedule.model.ScheduleItem
 

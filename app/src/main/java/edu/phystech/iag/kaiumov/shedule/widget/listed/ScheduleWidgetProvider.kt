@@ -9,7 +9,7 @@ import android.net.Uri
 import android.widget.RemoteViews
 import edu.phystech.iag.kaiumov.shedule.Keys
 import edu.phystech.iag.kaiumov.shedule.R
-import edu.phystech.iag.kaiumov.shedule.DataUtils
+import edu.phystech.iag.kaiumov.shedule.utils.DataUtils
 
 
 class ScheduleWidgetProvider : AppWidgetProvider() {

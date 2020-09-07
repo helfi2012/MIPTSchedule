@@ -14,9 +14,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.interpolator.view.animation.LinearOutSlowInInterpolator
 import androidx.preference.PreferenceManager
 import edu.phystech.iag.kaiumov.shedule.*
-import edu.phystech.iag.kaiumov.shedule.model.TimeUtils
+import edu.phystech.iag.kaiumov.shedule.utils.TimeUtils
 import edu.phystech.iag.kaiumov.shedule.notification.Alarm
 import edu.phystech.iag.kaiumov.shedule.timetable.DaysPagerAdapter
+import edu.phystech.iag.kaiumov.shedule.ui.CircularViewPagerHandler
+import edu.phystech.iag.kaiumov.shedule.utils.DataUtils
+import edu.phystech.iag.kaiumov.shedule.utils.ThemeHelper
 import kotlinx.android.synthetic.main.activity_main.*
 import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt
 import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetSequence
@@ -39,7 +42,7 @@ class MainActivity : AppCompatActivity() {
         // New lesson button listener
         createButton.setOnClickListener {
             page = pager.currentItem
-            val intent = Intent(applicationContext, EditActivity::class.java)
+            val intent = Intent(this, EditActivity::class.java)
             intent.action = Keys.ACTION_NEW
             intent.putExtra(Keys.DAY, pager.currentItem + 1)
             startActivity(intent)
@@ -86,7 +89,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun setNightSky() {
         if (ThemeHelper.isDark(this)) {
-            val preferences = PreferenceManager.getDefaultSharedPreferences(applicationContext)
+            val preferences = PreferenceManager.getDefaultSharedPreferences(this)
             val nightSky = preferences.getBoolean(getString(R.string.pref_stars_key), true)
             if (nightSky) {
                 starsWhite.visibility = View.VISIBLE
@@ -170,15 +173,16 @@ class MainActivity : AppCompatActivity() {
             if (timetable.isNotEmpty()) {
                 // Creating schedule view
                 pager.adapter = DaysPagerAdapter(timetable[mainKey] ?: ArrayList(),
-                        applicationContext,
+                        this,
                         supportFragmentManager)
                 tabs.setupWithViewPager(pager)
+                pager.addOnPageChangeListener(CircularViewPagerHandler(pager))
                 pager.currentItem = page
             }
         }
     }
 
-    private fun setUpSpinner(keys: List<String>, selection: Int) {
+    private fun setUpSpinner(entries: List<String>, selection: Int) {
         val adapter = object : ArrayAdapter<String>(this, R.layout.group_spinner_item) {
             override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
                 val v =  super.getDropDownView(position, convertView, parent)
@@ -196,12 +200,12 @@ class MainActivity : AppCompatActivity() {
             }
         }
         adapter.setDropDownViewResource(R.layout.group_spinner_dropdown_item)
-        adapter.addAll(keys)
+        adapter.addAll(entries)
         adapter.add(getString(R.string.add_group))
         groupSpinner.adapter = adapter
         groupSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                if (position == keys.size) {
+                if (position == entries.size) {
                     startActivity(Intent(applicationContext, StartActivity::class.java))
                 } else if (position != selection) {
                     page = pager.currentItem

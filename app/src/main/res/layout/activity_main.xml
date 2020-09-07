@@ -52,50 +52,50 @@
                 tools:listitem="@layout/group_spinner_item" />
         </androidx.appcompat.widget.Toolbar>
 
-        <com.google.android.material.tabs.TabLayout
+        <edu.phystech.iag.kaiumov.shedule.ui.CustomTabLayout
             android:id="@+id/tabs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:tabGravity="fill"
-            app:tabMode="auto"
+            app:tabMode="fixed"
             app:tabTextAppearance="@style/CustomTabStyle">
 
             <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="ПН" />
+                tools:text="MON" />
 
             <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="ВТ" />
+                tools:text="TUE" />
 
             <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="СР" />
+                tools:text="WED" />
 
             <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="ЧТ" />
+                tools:text="THU" />
 
             <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="ПТ" />
+                tools:text="FRI" />
 
             <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="СБ" />
+                tools:text="SAT" />
 
             <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="ВС" />
+                tools:text="SUN" />
 
-        </com.google.android.material.tabs.TabLayout>
+        </edu.phystech.iag.kaiumov.shedule.ui.CustomTabLayout>
 
     </com.google.android.material.appbar.AppBarLayout>
 

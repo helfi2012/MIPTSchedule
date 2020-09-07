@@ -20,13 +20,16 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
 import com.google.android.material.textfield.TextInputLayout
-import edu.phystech.iag.kaiumov.shedule.*
+import edu.phystech.iag.kaiumov.shedule.Keys
+import edu.phystech.iag.kaiumov.shedule.R
+import edu.phystech.iag.kaiumov.shedule.ScheduleApp
 import edu.phystech.iag.kaiumov.shedule.model.ScheduleItem
-import edu.phystech.iag.kaiumov.shedule.model.TimeUtils
+import edu.phystech.iag.kaiumov.shedule.utils.ColorUtil
+import edu.phystech.iag.kaiumov.shedule.utils.DataUtils
+import edu.phystech.iag.kaiumov.shedule.utils.ThemeHelper
+import edu.phystech.iag.kaiumov.shedule.utils.TimeUtils
 import kotlinx.android.synthetic.main.activity_edit.*
 import kotlinx.android.synthetic.main.lesson_spinner_dropdown_item.view.*
-import kotlinx.android.synthetic.main.lesson_spinner_dropdown_item.view.textView
-import kotlinx.android.synthetic.main.lesson_spinner_item.view.*
 
 
 class EditActivity : AppCompatActivity() {
@@ -71,13 +74,13 @@ class EditActivity : AppCompatActivity() {
         )
 
         // Lesson spinner
-        val lessonAdapter = LessonAdapter(applicationContext)
+        val lessonAdapter = LessonAdapter(this)
         lessonAdapter.setDropDownViewResource(R.layout.lesson_spinner_dropdown_item)
         lessonAdapter.addAll(resources.getStringArray(R.array.lesson_types_text).toList())
         lessonSpinner.adapter = lessonAdapter
 
         // Load data
-        key = DataUtils.loadMainKey(applicationContext)
+        key = DataUtils.loadMainKey(this)
         // Two variants: 1) Add new lesson; 2) Edit existed one
         action = intent.action
         when (intent.action) {
@@ -113,7 +116,7 @@ class EditActivity : AppCompatActivity() {
             R.id.delete_button -> showConfirmDialog()
             R.id.save_button -> {
                 if (hasError())
-                    Toast.makeText(applicationContext, getString(R.string.error_hint),
+                    Toast.makeText(this, getString(R.string.error_hint),
                             Toast.LENGTH_SHORT).show()
                 else {
                     when (action) {
@@ -281,13 +284,17 @@ class EditActivity : AppCompatActivity() {
     private class LessonAdapter(context: Context) : ArrayAdapter<String>(context, R.layout.lesson_spinner_item) {
         private val keys = context.resources.getStringArray(R.array.lesson_types)
 
-        private fun getDrawable(position: Int): Drawable? {
-            val drawable = AppCompatResources.getDrawable(context, R.drawable.ic_rounded_square) ?:  return null
-            val colorId = if (ThemeHelper.isDark(context))
+        private fun getColor(context: Context, position: Int): Int {
+            val colorId =  if (ThemeHelper.isDark(context))
                 ColorUtil.getTextColor(keys[position])
             else
                 ColorUtil.getBackgroundColor(keys[position])
-            drawable.setTint(ContextCompat.getColor(context, colorId))
+            return ContextCompat.getColor(context, colorId)
+        }
+
+        private fun getDrawable(position: Int): Drawable? {
+            val drawable = AppCompatResources.getDrawable(context, R.drawable.ic_rounded_square) ?:  return null
+            drawable.setTint(getColor(context, position))
             return drawable
         }
 

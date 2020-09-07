@@ -2,7 +2,7 @@ package edu.phystech.iag.kaiumov.shedule.widget.paged
 
 import android.content.Intent
 import android.widget.RemoteViewsService
-import edu.phystech.iag.kaiumov.shedule.DataUtils
+import edu.phystech.iag.kaiumov.shedule.utils.DataUtils
 import edu.phystech.iag.kaiumov.shedule.Keys
 import edu.phystech.iag.kaiumov.shedule.ScheduleApp
 

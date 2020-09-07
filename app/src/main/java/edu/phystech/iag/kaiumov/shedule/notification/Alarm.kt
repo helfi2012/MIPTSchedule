@@ -6,15 +6,14 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import android.os.Build
 import android.os.Bundle
 import androidx.preference.PreferenceManager
-import edu.phystech.iag.kaiumov.shedule.DataUtils
+import edu.phystech.iag.kaiumov.shedule.utils.DataUtils
 import edu.phystech.iag.kaiumov.shedule.Keys
 import edu.phystech.iag.kaiumov.shedule.R
 import edu.phystech.iag.kaiumov.shedule.model.Schedule
 import edu.phystech.iag.kaiumov.shedule.model.ScheduleItem
-import edu.phystech.iag.kaiumov.shedule.model.TimeUtils
+import edu.phystech.iag.kaiumov.shedule.utils.TimeUtils
 import java.util.*
 
 
@@ -57,7 +56,7 @@ object Alarm {
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val preferences = PreferenceManager.getDefaultSharedPreferences(context)
         val minutesBefore = preferences.getString(context.resources.getString(R.string.pref_notification_before_key), "5")!!.toInt()
-        val items = schedule.timetable[key]!!
+        val items = schedule.timetable[key] ?: return
         // Cancel previous alarms
         resetAlarm(context, alarmManager, preferences)
         // Save new notification queue size

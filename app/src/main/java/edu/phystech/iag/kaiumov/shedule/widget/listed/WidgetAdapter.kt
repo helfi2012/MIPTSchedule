@@ -6,10 +6,10 @@ import android.content.Intent
 import android.widget.RemoteViews
 import android.widget.RemoteViewsService.RemoteViewsFactory
 import androidx.core.content.ContextCompat
-import edu.phystech.iag.kaiumov.shedule.ColorUtil
+import edu.phystech.iag.kaiumov.shedule.utils.ColorUtil
 import edu.phystech.iag.kaiumov.shedule.R
 import edu.phystech.iag.kaiumov.shedule.model.ScheduleItem
-import edu.phystech.iag.kaiumov.shedule.model.TimeUtils
+import edu.phystech.iag.kaiumov.shedule.utils.TimeUtils
 
 class WidgetAdapter(private val context: Context, classes: List<ScheduleItem>) : RemoteViewsFactory {
 

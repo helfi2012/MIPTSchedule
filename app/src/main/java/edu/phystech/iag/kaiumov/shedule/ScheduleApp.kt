@@ -7,6 +7,8 @@ import edu.phystech.iag.kaiumov.shedule.model.Schedule
 import edu.phystech.iag.kaiumov.shedule.model.ScheduleItem
 import edu.phystech.iag.kaiumov.shedule.notification.Alarm
 import edu.phystech.iag.kaiumov.shedule.notification.Notificator
+import edu.phystech.iag.kaiumov.shedule.utils.DataUtils
+import edu.phystech.iag.kaiumov.shedule.utils.ThemeHelper
 
 
 class ScheduleApp : Application() {

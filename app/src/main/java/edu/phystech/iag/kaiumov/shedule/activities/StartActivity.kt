@@ -1,6 +1,7 @@
 package edu.phystech.iag.kaiumov.shedule.activities
 
 import android.content.DialogInterface
+import android.os.AsyncTask
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -10,12 +11,12 @@ import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.textfield.TextInputLayout
-import edu.phystech.iag.kaiumov.shedule.DataUtils
+import edu.phystech.iag.kaiumov.shedule.utils.DataUtils
 import edu.phystech.iag.kaiumov.shedule.R
 import edu.phystech.iag.kaiumov.shedule.ScheduleApp
-import edu.phystech.iag.kaiumov.shedule.SearchTask
 import edu.phystech.iag.kaiumov.shedule.notification.Alarm
 import kotlinx.android.synthetic.main.activity_start.*
+import me.xdrop.fuzzywuzzy.FuzzySearch
 
 
 class StartActivity : AppCompatActivity() {
@@ -112,5 +113,27 @@ class StartActivity : AppCompatActivity() {
     override fun onPause() {
         super.onPause()
         DataUtils.hideKeyboard(this)
+    }
+
+    private class SearchTask(private val text: String,
+                             private val keys: List<String>,
+                             private val adapter: ArrayAdapter<String>) :
+            AsyncTask<Void, Void, ArrayList<String>>() {
+
+        companion object {
+            private const val SEARCH_LIMIT = 7
+        }
+
+        override fun doInBackground(vararg p0: Void?): ArrayList<String> {
+            val result = ArrayList<String>()
+            FuzzySearch.extractTop(text, keys, SEARCH_LIMIT).forEach { result.add(it.string) }
+            return result
+        }
+
+        override fun onPostExecute(result: ArrayList<String>) {
+            adapter.clear()
+            adapter.addAll(result)
+            super.onPostExecute(result)
+        }
     }
 }

@@ -14,10 +14,10 @@ import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceCategory
 import androidx.preference.PreferenceFragmentCompat
-import edu.phystech.iag.kaiumov.shedule.DataUtils
+import edu.phystech.iag.kaiumov.shedule.utils.DataUtils
 import edu.phystech.iag.kaiumov.shedule.R
 import edu.phystech.iag.kaiumov.shedule.ScheduleApp
-import edu.phystech.iag.kaiumov.shedule.ThemeHelper
+import edu.phystech.iag.kaiumov.shedule.utils.ThemeHelper
 import edu.phystech.iag.kaiumov.shedule.notification.Alarm
 
 

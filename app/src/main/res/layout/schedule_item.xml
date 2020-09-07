@@ -125,7 +125,7 @@
                     android:layout_marginTop="8dp"
                     android:ellipsize="end"
                     android:fontFamily="@font/futura_book"
-                    android:maxLines="2"
+                    android:singleLine="true"
                     android:textColor="@color/textBig"
                     android:textSize="18sp"
                     tools:text="Теоретическая механика" />

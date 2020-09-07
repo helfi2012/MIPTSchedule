@@ -2,19 +2,21 @@ package edu.phystech.iag.kaiumov.shedule.timetable
 
 import android.content.Context
 import android.content.Intent
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.RecyclerView
-import edu.phystech.iag.kaiumov.shedule.ColorUtil
 import edu.phystech.iag.kaiumov.shedule.Keys
 import edu.phystech.iag.kaiumov.shedule.R
 import edu.phystech.iag.kaiumov.shedule.activities.EditActivity
 import edu.phystech.iag.kaiumov.shedule.model.ScheduleItem
-import edu.phystech.iag.kaiumov.shedule.model.TimeUtils
+import edu.phystech.iag.kaiumov.shedule.utils.ColorUtil
+import edu.phystech.iag.kaiumov.shedule.utils.TimeUtils
 import kotlinx.android.synthetic.main.schedule_item.view.*
 
 
@@ -56,7 +58,16 @@ class ClassesAdapter(private val day: Int, private val showSpaces: Boolean, clas
 
         // Increase item height for longer classes
         var scale = maxOf(item.length() / (1 + 25.0 / 60.0), 1.0)
-        holder.view.scheduleMainLayout.layoutParams.height = (holder.view.context.resources.getDimension(R.dimen.schedule_item_height) * scale).toInt()
+        holder.view.scheduleMainLayout.viewTreeObserver.addOnGlobalLayoutListener(object : OnGlobalLayoutListener {
+            override fun onGlobalLayout() {
+                holder.view.scheduleMainLayout.viewTreeObserver.removeOnGlobalLayoutListener(this)
+                holder.view.scheduleMainLayout.layoutParams.height = maxOf(
+                    (holder.view.context.resources.getDimension(R.dimen.schedule_item_height) * scale).toInt(),
+                    holder.view.scheduleMainLayout.height
+                )
+            }
+        })
+
         holder.view.scheduleMainLayout.setOnClickListener {
             val intent = Intent(context, EditActivity::class.java)
             intent.action = Keys.ACTION_EDIT
@@ -65,23 +76,9 @@ class ClassesAdapter(private val day: Int, private val showSpaces: Boolean, clas
         }
         // Spaces
         if (showSpaces && position + 1 < data.size) {
-//            val length = maxOf(TimeUtils.length(item.endTime, data[position + 1].startTime) - 1.0 / 6.0, 0.0)
-//            val marginParams = holder.view.rootLayout.layoutParams as ViewGroup.MarginLayoutParams
-//            marginParams.bottomMargin = (holder.view.context.resources.getDimension(R.dimen.schedule_item_height) * length).toInt()
             val length = maxOf(TimeUtils.length(item.endTime, data[position + 1].startTime) * 60, 0.0).toInt()
-            holder.view.breakTextView.text = when (length) {
-                in 0..10 -> context.resources.getString(R.string.break_extra_short, length)
-                in 11..20 -> context.resources.getString(R.string.break_short, length)
-                in 21..40 -> context.resources.getString(R.string.break_medium, length)
-                else -> context.resources.getString(R.string.break_long, length)
-            }
-            val breakDrawable = when (length) {
-                in 0..10 -> R.drawable.ic_run_24px
-                in 11..20 -> R.drawable.ic_local_cafe_24px
-                in 21..40 -> R.drawable.ic_restaurant_24px
-                else -> R.drawable.ic_hotel_24px
-            }
-            holder.view.breakTextView.setCompoundDrawablesWithIntrinsicBounds(breakDrawable, 0, 0, 0)
+            holder.view.breakTextView.text = breakText(context, length)
+            holder.view.breakTextView.setCompoundDrawablesWithIntrinsicBounds(breakDrawable(length), 0, 0, 0)
             holder.view.breakTextView.visibility = View.VISIBLE
         }
         // Set up actual item
@@ -93,7 +90,10 @@ class ClassesAdapter(private val day: Int, private val showSpaces: Boolean, clas
             holder.view.place.typeface = ResourcesCompat.getFont(context, R.font.futura_demi)
             // Set selection color
             holder.view.selectionLayout.setBackgroundColor(ContextCompat.getColor(context, ColorUtil.getBackgroundColor(item.type)))
-            holder.view.selectionLayout.alpha = context.resources.getFloat(R.dimen.selection_alpha)
+
+            val typedValue = TypedValue()
+            context.resources.getValue(R.dimen.selection_alpha, typedValue, true)
+            holder.view.selectionLayout.alpha = typedValue.float
             // Move dot
             scale = TimeUtils.length(item.startTime, time) / item.length()
             val constraintSet = ConstraintSet()
@@ -109,4 +109,22 @@ class ClassesAdapter(private val day: Int, private val showSpaces: Boolean, clas
     override fun getItemId(position: Int): Long = position.toLong()
 
     class ViewHolder(val view: View) : RecyclerView.ViewHolder(view)
+
+    private fun breakText(context: Context, length: Int): String {
+        return when (length) {
+            in 0..10 -> context.resources.getString(R.string.break_extra_short, length)
+            in 11..20 -> context.resources.getString(R.string.break_short, length)
+            in 21..40 -> context.resources.getString(R.string.break_medium, length)
+            else -> context.resources.getString(R.string.break_long, length)
+        }
+    }
+
+    private fun breakDrawable(length: Int): Int {
+        return when (length) {
+            in 0..10 -> R.drawable.ic_run_24px
+            in 11..20 -> R.drawable.ic_local_cafe_24px
+            in 21..40 -> R.drawable.ic_restaurant_24px
+            else -> R.drawable.ic_hotel_24px
+        }
+    }
 }

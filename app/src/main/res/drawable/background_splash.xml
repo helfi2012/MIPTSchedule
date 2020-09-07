@@ -2,14 +2,10 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:drawable="@color/colorPrimary"/>
-    <item
-        android:drawable="@drawable/ic_app_icon"
-        android:gravity="center">
-        <shape
-            android:shape="rectangle">
-            <size
-                android:height="300dp"
-                android:width="300dp" />
-        </shape>
+    <item>
+        <bitmap
+            android:gravity="center"
+            android:src="@drawable/source"
+            android:mipMap="true" />
     </item>
 </layer-list>

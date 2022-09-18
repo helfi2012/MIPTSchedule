@@ -1,0 +1,20 @@
+{
+  "version": 3,
+  "artifactType": {
+    "type": "APK",
+    "kind": "Directory"
+  },
+  "applicationId": "edu.phystech.iag.kaiumov.schedule",
+  "variantName": "release",
+  "elements": [
+    {
+      "type": "SINGLE",
+      "filters": [],
+      "attributes": [],
+      "versionCode": 25,
+      "versionName": "3.4",
+      "outputFile": "app-release.apk"
+    }
+  ],
+  "elementType": "File"
+}

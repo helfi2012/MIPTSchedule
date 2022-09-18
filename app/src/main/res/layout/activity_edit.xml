@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/rootLayout"
-    tools:context="edu.phystech.iag.kaiumov.shedule.activities.EditActivity">
+    tools:context="edu.phystech.iag.kaiumov.schedule.ui.activities.EditActivity">
 
     <LinearLayout
         android:id="@+id/editLayout"

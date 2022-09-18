@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="edu.phystech.iag.kaiumov.shedule">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" />
 
     <application
-        android:name=".ScheduleApp"
+        android:name="edu.phystech.iag.kaiumov.schedule.ScheduleApp"
         android:allowBackup="true"
         android:fullBackupContent="true"
         android:icon="@mipmap/ic_launcher"
@@ -17,11 +16,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning"
-        tools:targetApi="donut">
+        tools:targetApi="s"
+        android:dataExtractionRules="@xml/data_extraction_rules">
 
         <activity
-            android:name=".activities.SplashActivity"
-            android:theme="@style/SplashTheme">
+            android:name="edu.phystech.iag.kaiumov.schedule.ui.activities.SplashActivity"
+            android:theme="@style/SplashTheme"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -30,20 +31,21 @@
         </activity>
 
         <activity
-            android:name=".activities.MainActivity"
+            android:name="edu.phystech.iag.kaiumov.schedule.ui.activities.MainActivity"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
-            android:name=".activities.SettingsActivity"
+            android:name="edu.phystech.iag.kaiumov.schedule.ui.activities.SettingsActivity"
             android:theme="@style/AppTheme"
             android:label="@string/title_activity_settings" />
 
-        <activity android:name=".activities.StartActivity" />
+        <activity android:name="edu.phystech.iag.kaiumov.schedule.ui.activities.StartActivity" />
 
-        <activity android:name=".activities.EditActivity"/>
+        <activity android:name="edu.phystech.iag.kaiumov.schedule.ui.activities.EditActivity"/>
 
         <!-- Listed Widget -->
-        <receiver android:name=".widget.listed.ScheduleWidgetProvider">
+        <receiver android:name="edu.phystech.iag.kaiumov.schedule.widget.listed.ScheduleWidgetProvider"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
                 <action android:name="android.intent.action.DATE_CHANGED" />
@@ -55,12 +57,13 @@
         </receiver>
 
         <service
-            android:name=".widget.listed.WidgetService"
+            android:name="edu.phystech.iag.kaiumov.schedule.widget.listed.WidgetService"
             android:permission="android.permission.BIND_REMOTEVIEWS" />
 
         <!-- Paged Widget -->
 
-        <receiver android:name=".widget.paged.ScheduleWidgetProvider">
+        <receiver android:name="edu.phystech.iag.kaiumov.schedule.widget.paged.ScheduleWidgetProvider"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
                 <action android:name="android.intent.action.DATE_CHANGED" />
@@ -72,18 +75,18 @@
         </receiver>
 
         <service
-            android:name=".widget.paged.WidgetService"
+            android:name="edu.phystech.iag.kaiumov.schedule.widget.paged.WidgetService"
             android:permission="android.permission.BIND_REMOTEVIEWS" />
 
         <!-- Notifications -->
 
         <receiver
-            android:name=".notification.Notificator$DeleteNotificationReceiver"
+            android:name="edu.phystech.iag.kaiumov.schedule.notification.Notificator$DeleteNotificationReceiver"
             android:exported="false" >
         </receiver>
 
         <receiver
-            android:name=".notification.BootReceiver"
+            android:name="edu.phystech.iag.kaiumov.schedule.notification.BootReceiver"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
@@ -93,12 +96,12 @@
                 <action android:name="android.intent.action.QUICKBOOT_POWERON" />
             </intent-filter>
         </receiver>
-        <receiver android:name=".notification.Alarm$AlarmNotificationReceiver" />
+        <receiver android:name="edu.phystech.iag.kaiumov.schedule.notification.Alarm$AlarmNotificationReceiver" />
 
         <service
-            android:name=".notification.MyService"
+            android:name="edu.phystech.iag.kaiumov.schedule.notification.MyService"
             android:enabled="true"
-            android:exported="true" />
+            android:exported="false" />
     </application>
 
 </manifest>

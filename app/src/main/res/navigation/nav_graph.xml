@@ -7,7 +7,7 @@
 
     <activity
         android:id="@+id/mainActivity"
-        android:name="edu.phystech.iag.kaiumov.shedule.activities.MainActivity"
+        android:name="edu.phystech.iag.kaiumov.schedule.ui.activities.MainActivity"
         android:label="activity_main"
         tools:layout="@layout/activity_main">
         <action
@@ -19,13 +19,13 @@
     </activity>
     <activity
         android:id="@+id/startActivity"
-        android:name="edu.phystech.iag.kaiumov.shedule.activities.StartActivity"
+        android:name="edu.phystech.iag.kaiumov.schedule.ui.activities.StartActivity"
         android:label="activity_start"
         tools:layout="@layout/activity_start">
     </activity>
     <activity
         android:id="@+id/editActivity"
-        android:name="edu.phystech.iag.kaiumov.shedule.activities.EditActivity"
+        android:name="edu.phystech.iag.kaiumov.schedule.ui.activities.EditActivity"
         android:label="activity_edit"
         tools:layout="@layout/activity_edit" />
 </navigation>
